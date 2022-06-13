@@ -1,0 +1,22 @@
+.Home_container {
+  width: 100%;
+  height: auto;
+}
+.Home_category {
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 40px;
+}
+.Home_banner {
+  margin-top: 50px;
+}
+.Home_banner1 {
+  margin-top: 50px;
+}
+.Home_news {
+  width: 100%;
+  height: auto;
+  margin-left: 80px;
+  margin-right: 80px;
+  margin-top: 40px;
+}

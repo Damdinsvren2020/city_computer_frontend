@@ -1,0 +1,9 @@
+.Home_news_container {
+  width: 100%;
+  height: auto;
+}
+.Home_news_container img {
+  object-fit: cover;
+  margin-left: -15px;
+  margin-right: -55px;
+}

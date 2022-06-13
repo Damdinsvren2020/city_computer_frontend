@@ -1,0 +1,12 @@
+.home_category_container {
+  width: 100%;
+  height: auto;
+}
+.home_category_container img {
+  object-fit: cover;
+  /* margin-left: -15px;
+  margin-right: -15px; */
+}
+/* .home_category_slider {
+  width: 1000px;
+} */

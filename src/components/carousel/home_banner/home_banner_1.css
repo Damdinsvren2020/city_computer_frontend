@@ -1,0 +1,10 @@
+.Home_banner_1_container {
+  width: 100%;
+  height: auto;
+  margin-top: 30px;
+}
+.Home_banner_1_container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
