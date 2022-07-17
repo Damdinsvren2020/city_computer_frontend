@@ -1,30 +1,63 @@
-import React from "react";
-import "./home_banner.css";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import Banner_1 from "../../../images/tom1.jpg";
-import Banner_2 from "../../../images/tomapple.jpg";
-import Banner_3 from "../../../images/tomsamsung.jpg";
+import axios from "axios";
+import { cdnUrl } from "../../../cdnUrl";
 
 const Home_banner = () => {
-  const settings = {
+  const [picturesList, setPictureList] = useState([]);
+  useEffect(() => {
+    const getBanner = async () => {
+      const { data } = await axios.get("banner/getAll");
+      setPictureList(data.data);
+    };
+    getBanner();
+  }, []);
+  var settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
-    <div className="home_banner_container">
+    <div class="p-[40px]">
       <Slider {...settings}>
-        <div>
-          <img src={Banner_2} alt="Banner_1" />
-        </div>
-        <div>
-          <img src={Banner_1} alt="Banner_2" />
-        </div>
-        <div>
-          <img src={Banner_3} alt="Banner_3" />
-        </div>
+        {picturesList.map((row) => (
+          <div key={row.id}>
+            <img
+              class="h-full w-full object-cover	"
+              src={cdnUrl + row.link}
+              alt=""
+            />
+          </div>
+        ))}
       </Slider>
     </div>
   );

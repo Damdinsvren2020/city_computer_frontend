@@ -3,12 +3,20 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import Delgets from "./pages/delgets/delgets";
+import Product_Detail from "./pages/product_detail/product_detail";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import axios from "axios";
 
 import reportWebVitals from "./reportWebVitals";
+
+const token = localStorage.getItem("token");
+
+axios.defaults.headers.post["Content-Type"] = "multipart/formdata";
+axios.defaults.headers.common["authorization"] = "Bearer " + token;
+axios.defaults.baseURL = "http://localhost:3001/api";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +25,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/Delgets" element={<Delgets />} />
+        <Route path="/Product_detail" element={<Product_Detail />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

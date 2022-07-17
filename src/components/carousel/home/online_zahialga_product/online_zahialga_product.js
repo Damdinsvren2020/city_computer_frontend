@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Slider from "react-slick";
-import axios from "axios";
-import { cdnUrl } from "../../../cdnUrl";
 
-const Home_category = () => {
-  const [angilal, setAngilal] = useState([]);
-  useEffect(() => {
-    const getBanner = async () => {
-      const { data } = await axios.get("/angilal");
-      setAngilal(data.data);
-    };
-    getBanner();
-  }, []);
+import axios from "axios";
+import { cdnUrl } from "../../../../cdnUrl";
+const Online_zahialga_product = () => {
   var settings = {
     dots: false,
     infinite: false,
@@ -47,16 +39,16 @@ const Home_category = () => {
     ],
   };
   return (
-    <div class="p-[40px]">
-      <Slider {...settings}>
-        {angilal.map((row) => (
-          <div key={row.id}>
-            <img class="object-contain" src={cdnUrl + row.link} alt="" />
+    <div>
+      <div class="mt-4">
+        <div>
+          <div>
+            <img src="https://citycomputer.mn/wp-content/uploads/2021/10/245166987_397598101864996_7610874419585783863_n.png" />
           </div>
-        ))}
-      </Slider>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Home_category;
+export default Online_zahialga_product;
