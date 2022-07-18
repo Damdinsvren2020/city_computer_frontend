@@ -8,6 +8,7 @@ const Home_category = () => {
   useEffect(() => {
     const getBanner = async () => {
       const { data } = await axios.get("/angilal");
+      console.log("daaaa", data);
       setAngilal(data.data);
     };
     getBanner();

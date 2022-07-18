@@ -33,10 +33,9 @@ const CheckboxFilter = ({ seeProducts, getProductById }) => {
 
   useEffect(() => {
     axios
-      .get("/angilal")
+      .get("/subangilal")
       .then((response) => {
         const data = response.data.data;
-        console.log("dadaa", data);
         setAngilal(data);
       })
       .catch((error) => {

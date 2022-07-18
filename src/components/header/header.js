@@ -1,8 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import "./header.css";
 
 const Header = ({ getProductById }) => {
   const [menuDropDown, setMenuDropDown] = useState(false);
+  const [angilal, setAngilal] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [FilteredCategory, setFilteredCategory] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/angilal")
+      .then((response) => {
+        const data = response.data.data;
+        console.log("Sub angin", data);
+        setAngilal(data);
+        setFilteredCategory(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [refreshKey]);
+  useEffect(() => {
+    axios
+      .get("/angilal")
+      .then((response) => {
+        const data = response.data.data;
+        setAngilal(data);
+        setFilteredCategory(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [refreshKey]);
   return (
     <>
       <div>
@@ -41,9 +72,9 @@ const Header = ({ getProductById }) => {
                     </a>
                   </li>
                   <li>
-                    <a href="/">
+                    <Link to="/Login">
                       <i className="bi bi-person" />
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -55,6 +86,14 @@ const Header = ({ getProductById }) => {
             <div className="row subtitle">
               <ul className="sub">
                 <li>
+                  {/* <button
+                    onClick={() => getProductById("62bd1b7a6ee0750f2bf6621c")}
+                    href="/delgets"
+                  >
+                    hello
+                  </button> */}
+                </li>
+                <li>
                   <button
                     onClick={() => setMenuDropDown(!menuDropDown)}
                     id="togglebttn"
@@ -62,33 +101,11 @@ const Header = ({ getProductById }) => {
                     <i className="bi bi-list"></i>
                   </button>
                 </li>
-
-                <li>
-                  <a href="/">Нүүр</a>
-                </li>
-                <li>
-                  <a href="/">Дэлгэц</a>
-                </li>
-                <li>
-                  <a
-                    onClick={() => getProductById("62bd1b7a6ee0750f2bf6621c")}
-                    href="/"
-                  >
-                    Суурин компьютер
-                  </a>
-                </li>
-                <li>
-                  <a href="/">Зөөврийн компьютер</a>
-                </li>
-                <li>
-                  <a href="/">Сэлбэг эд анги</a>
-                </li>
-                <li>
-                  <a href="/">Дагалдах хэрэгсэл</a>
-                </li>
-                <li>
-                  <a href="/">Оффис тоног төхөөрөмж</a>
-                </li>
+                {angilal.map((row) => (
+                  <li key={row.id}>
+                    <a href="/">{row.name}</a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -105,16 +122,36 @@ const Header = ({ getProductById }) => {
                 <div className="dropdown-menu1">
                   <div className="item item1">
                     <ul>
-                      <li style={{ borderBottom: "1px solid #e1e1e1" }}>
-                        <a href="/">Суурин компьютер</a>
-                      </li>
-                      <li>
-                        <a href="/">Зөөврийн компьютер</a>
-                      </li>
+                      {angilal.map((row) => (
+                        <li
+                          style={{ borderBottom: "1px solid #e1e1e1" }}
+                          key={row.id}
+                        >
+                          <a href="/">{row.name}</a>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                   <div className="item item2">
                     <div className="item2-1">
+                      {angilal.map((row) => (
+                        <li
+                          style={{ borderBottom: "1px solid #e1e1e1" }}
+                          key={row.id}
+                        >
+                          <h5>{row.name}</h5>
+                          <ul>
+                            {row?.SubAngilal?.map((item, index) => (
+                              <li>
+                                <a href="/">
+                                  <i className="bi bi-chevron-right" />{" "}
+                                  {item.name}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
+                      ))}
                       <h5>Суурин компьютер</h5>
                       <ul>
                         <li>

@@ -4,6 +4,9 @@ import "./index.css";
 import App from "./App";
 import Delgets from "./pages/delgets/delgets";
 import Product_Detail from "./pages/product_detail/product_detail";
+import Login from "./pages/auth/login/login";
+import Profile from "./pages/auth/profile/profile";
+import SignUp from "./pages/auth/sigup/signup";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd";
@@ -26,6 +29,9 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/Delgets" element={<Delgets />} />
         <Route path="/Product_detail" element={<Product_Detail />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Profile" element={<Profile />} />
+        <Route path="/Sign_up" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
