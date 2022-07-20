@@ -8,7 +8,6 @@ const Home_category = () => {
   useEffect(() => {
     const getBanner = async () => {
       const { data } = await axios.get("/angilal");
-      console.log("daaaa", data);
       setAngilal(data.data);
     };
     getBanner();
@@ -64,7 +63,7 @@ const Home_category = () => {
                   <div className="w-full relative">
                     <div className="w-full">
                       <img
-                        className="h-[350px] max-h-[100%] w-full object-cover"
+                        className="h-[250px] max-h-[250px] w-full object-cover"
                         src={`${cdnUrl}/${row.link}`}
                       />
                     </div>

@@ -27,7 +27,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/Delgets/:id" element={<Delgets />} />
+        <Route path="/D/:id" element={<Delgets />} />
         <Route path="/Product_detail" element={<Product_Detail />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Profile" element={<Profile />} />
