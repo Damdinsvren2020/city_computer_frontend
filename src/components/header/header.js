@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import SingleProduct from "../card/product/single/single";
 
 import "./header.css";
 const Header = ({ getProductById }) => {
+
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [angilal, setAngilal] = useState([]);
   const [showSubsTitle, setShowSubsTitle] = useState("");
@@ -12,14 +13,7 @@ const Header = ({ getProductById }) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [FilteredCategory, setFilteredCategory] = useState([]);
   const [whichTab, setWhichTab] = useState("");
-  function Test() {
-    switch (whichTab) {
-      case "SingleProduct":
-        return <SingleProduct />;
-      default:
-        return <SingleProduct />;
-    }
-  }
+
   useEffect(() => {
     axios
       .get("/angilal")
@@ -103,7 +97,9 @@ const Header = ({ getProductById }) => {
                 </li>
                 {angilal.map((row) => (
                   <li key={row.id}>
-                    <a href="/">{row.name}</a>
+                    <Link to={`/D/` + row.name}>
+                      <a >{row.name}</a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -129,11 +125,7 @@ const Header = ({ getProductById }) => {
                           style={{ borderBottom: "1px solid #e1e1e1" }}
                           key={row.id}
                         >
-                          <button
-                            onMouseOver={() => showSubAngilal(row.SubAngilal)}
-                          >
-                            {row.name}
-                          </button>
+                          <button>{row.name}</button>
                         </li>
                       ))}
                     </ul>
