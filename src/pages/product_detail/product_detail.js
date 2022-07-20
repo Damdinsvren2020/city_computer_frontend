@@ -6,7 +6,7 @@ import Home_Product_detail from "../../components/carousel/home_product_carousel
 import Product_detail_tab from "../../components/tab/product_detail/product_detail_tab";
 import { Rocket, CreditCard, MessageCircle2 } from "tabler-icons-react";
 
-const Product_detail = () => {
+const Product_detail = ({ product }) => {
   return (
     <div>
       <Header />

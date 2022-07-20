@@ -54,7 +54,7 @@ const Partner = () => {
           <div key={row.id}>
             <img
               class="h-full w-full object-cover	"
-              src={cdnUrl + row.link}
+              src={`${cdnUrl}/${row.link}`}
               alt=""
             />
           </div>

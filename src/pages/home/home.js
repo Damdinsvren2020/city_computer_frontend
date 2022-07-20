@@ -12,7 +12,9 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <Homebanner />
+      <div className="mt-[5px]">
+        <Homebanner />
+      </div>
       <div>
         <Homecategory />
       </div>
@@ -25,9 +27,9 @@ const Home = () => {
       <div>
         <Homebanner1 />
       </div>
-      <div>
+      {/* <div>
         <Homeproductcarousel />
-      </div>
+      </div> */}
 
       <div>
         <Partner />

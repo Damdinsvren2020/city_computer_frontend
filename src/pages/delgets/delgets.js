@@ -8,6 +8,7 @@ import Checkbox from "../../components/filter/checkbox/checkbox";
 import Pagination_detail from "../../components/filter/pagination/pagination";
 
 import "./delgets.css";
+import Product_detail from "../product_detail/product_detail";
 const Home = () => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -68,12 +69,20 @@ const Home = () => {
                       <div className="h-[30px] w-[30px] absolute mt-[8px] ml-[8px]">
                         <img
                           className="h-[350px] max-h-[100%]  w-auto object-cover"
-                          src={`${cdnUrl}${item?.brand?.link}`}
+                          src={`${cdnUrl}/${item?.brand?.link}`}
                         />
                       </div>
-                      <div className="absolute mt-[8px] right-0 mr-[8px] border-[2px] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
-                        <p>шинэ</p>
-                      </div>
+                      {item.offer ? (
+                        <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-[red] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
+                          <h1 className="font-bold">
+                            {item.offer && item.offer + "%"}
+                          </h1>
+                        </div>
+                      ) : (
+                        <div className="absolute mt-[8px] right-0 mr-[8px] border-[2px] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
+                          <p>шинэ</p>
+                        </div>
+                      )}
                     </div>
                     <div className="w-full">
                       <img
@@ -89,9 +98,19 @@ const Home = () => {
                       </h2>
                       <h4 className="text-[11px] text-[ #666666]">product</h4>
                     </div>
-                    <p className="font-bold py-4 text-[#333333] text-[14px]">
-                      {item.price} ₮
-                    </p>
+                    <div className="flex w-full items-between justify-between">
+                      <p
+                        className={`font-bold py-4 text-[#333333] text-[14px] ${
+                          item.offer && "line-through"
+                        }`}
+                      >
+                        {item.price} ₮
+                      </p>
+                      <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
+                        {item.offer &&
+                          item.price - (item.price * item.offer) / 100 + "₮"}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -101,6 +120,7 @@ const Home = () => {
       <div className="flex justify-center">
         <Pagination_detail total={pagination.pageCount} />
       </div>
+
       <Footer />
     </div>
   );

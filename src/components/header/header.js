@@ -38,7 +38,7 @@ const Header = ({ getProductById }) => {
     <>
       <div>
         <section className="city-header">
-          <div className="container">
+          <div className="max-w-[1200px] mx-auto">
             <div className="row logo-con">
               <button
                 onClick={() => setMenuDropDown(!menuDropDown)}

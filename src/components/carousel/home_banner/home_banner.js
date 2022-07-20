@@ -7,8 +7,8 @@ const Home_banner = () => {
   const [picturesList, setPictureList] = useState([]);
   useEffect(() => {
     const getBanner = async () => {
-      const { data } = await axios.get("banner/getAll");
-      setPictureList(data.data);
+      const { data } = await axios.get("/bannerimages");
+      setPictureList(data.result);
     };
     getBanner();
   }, []);
@@ -26,7 +26,7 @@ const Home_banner = () => {
           slidesToShow: 1,
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -47,17 +47,20 @@ const Home_banner = () => {
     ],
   };
   return (
-    <div class="p-[40px]">
+    <div>
       <Slider {...settings}>
-        {picturesList.map((row) => (
-          <div key={row.id}>
-            <img
-              class="h-full w-full object-cover	"
-              src={cdnUrl + row.link}
-              alt=""
-            />
-          </div>
-        ))}
+        {picturesList.map(
+          (row) =>
+            row.orders === 1 && (
+              <div key={row.id}>
+                <img
+                  class="h-full w-full object-cover	"
+                  src={`${cdnUrl}/${row.thumbnail}`}
+                  alt=""
+                />
+              </div>
+            )
+        )}
       </Slider>
     </div>
   );

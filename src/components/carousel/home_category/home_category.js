@@ -17,8 +17,8 @@ const Home_category = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 5,
+    slidesToScroll: 5,
     initialSlide: 0,
     responsive: [
       {
@@ -27,7 +27,7 @@ const Home_category = () => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -48,14 +48,40 @@ const Home_category = () => {
     ],
   };
   return (
-    <div class="p-[40px]">
-      <Slider {...settings}>
-        {angilal.map((row) => (
-          <div key={row.id}>
-            <img class="object-contain" src={cdnUrl + row.link} alt="" />
-          </div>
-        ))}
-      </Slider>
+    <div class="max-w-[1370px] mx-auto">
+      <div className="w-full h-full">
+        <img
+          className="w-full h-full"
+          src="https://cdn5.shoppy.mn/img/117355/2688x0xwebp/CATEGORY-WEB.png?h=cbd5c6f4bd3619cea88a29436ebca3b0a72a1df3"
+        />
+      </div>
+      <div class="w-full flex  justify-evenly">
+        <Slider {...settings}>
+          {angilal.map((row) => (
+            <div key={row.id} class="w-[300px] px-[20px] ">
+              <div className="h-auto w-full bg-[#ddd]">
+                <div className="border flex flex-col">
+                  <div className="w-full relative">
+                    <div className="w-full">
+                      <img
+                        className="h-[350px] max-h-[100%] w-full object-cover"
+                        src={`${cdnUrl}/${row.link}`}
+                      />
+                    </div>
+                  </div>
+                  <div className="bg-[#fff] flex flex-col py-2 px-[8px] flex justify-between">
+                    <div>
+                      <h2 className="font-bold text-[14px] text-[#000] text-[#444444] text-center">
+                        {row.name}
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 };
