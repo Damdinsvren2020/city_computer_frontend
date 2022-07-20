@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { cdnUrl } from "../../cdnUrl";
 import "./delgets.css";
@@ -6,42 +7,101 @@ import Header from "../../components/header/header";
 import Footer from "../../components/footer/footer";
 import Checkbox from "../../components/filter/checkbox/checkbox";
 import Pagination_detail from "../../components/filter/pagination/pagination";
+import { AiOutlineLoading3Quarters } from "react-icons/ai"
 
 import "./delgets.css";
-// import Product_detail from "../product_detail/product_detail";
+import Product_detail from "../product_detail/product_detail";
+
 const Home = () => {
+
+  const { id } = useParams()
   const [product, setProduct] = useState([]);
+  const [filteredProduct, setFilteredProduct] = useState([])
   const [loading, setLoading] = useState(false);
   const [seeProduct, setSeeProducts] = useState("");
   const [pagination, setPagination] = useState({});
+  const [angilalID, setAngilalID] = useState("")
+  const [subAngilals, setSubAngilals] = useState([])
+
+  const cacheAngilalId = (id) => {
+    setAngilalID(id)
+  }
+
   useEffect(() => {
-    const getProduct = async () => {
-      setLoading(true);
-      const { data } = await axios.get("/product");
-      setProduct(data.result);
-      setPagination(data.pagination);
-      setLoading(false);
-    };
-    getProduct();
-  }, []);
+    if (id) {
+      const getProduct = async () => {
+        setLoading(true);
+        const { data } = await axios.post(`/productAngilal/${id}`);
+        if (data.success) {
+          setProduct(data.result);
+          setFilteredProduct(data.result)
+          console.log(data.result, "barararara")
+          setPagination(data.pagination);
+          setLoading(false);
+        }
+      };
+      getProduct();
+      const getSubAngilals = async () => {
+        const { data } = await axios.get(`/angilal/${id}`);
+        if (data.success) {
+          setSubAngilals(data.data)
+        }
+      };
+      getSubAngilals()
+    }
+  }, [angilalID]);
+
+
 
   const getProductById = async (id) => {
     try {
       setLoading(true);
-      console.log(seeProduct);
+      setFilteredProduct([])
       const { data } = await axios.post(
-        `http://localhost:3001/api/productAngilal/${id}`
+        `http://localhost:3001/api/productSubAngilal/${id}`
       );
-      setProduct(data.result);
+      setFilteredProduct(data.result);
+      setLoading(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const getProductByBrand = async (id) => {
+    try {
+      setLoading(true);
+      setFilteredProduct([])
+      const { data } = await axios.post(
+        `http://localhost:3001/api/productBrand/${id}`
+      );
+      setFilteredProduct(data.result);
       setLoading(false);
     } catch (error) {
       console.log(error.message);
     }
   };
 
+
+
+  const getProductByMinMax = async (value) => {
+    try {
+      setLoading(true);
+      setFilteredProduct([])
+      let formdata = new FormData()
+      formdata.append("min", value[0])
+      formdata.append("max", value[1])
+      const { data } = await axios.post(
+        `http://localhost:3001/api/productMinMax`, formdata
+      );
+      setFilteredProduct(data.result);
+      setLoading(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   return (
     <div>
-      <Header getProductById={(id) => getProductById(id)} />
+      <Header getProductByAngilal={(id) => cacheAngilalId(id)} />
       <div
         class="relative max-w-[1400px] mx-auto md:flex p-[40px]"
         data-dev-hint="container"
@@ -54,68 +114,106 @@ const Home = () => {
         >
           <div>
             <Checkbox
+              subAngilals={subAngilals}
               getProductById={(id) => getProductById(id)}
+              getProductByBrand={(id) => getProductByBrand(id)}
               seeProducts={setSeeProducts}
+              product={product}
+              minMaxProducts={(value) => getProductByMinMax(value)}
             />
           </div>
         </aside>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2 m-4">
-          {product.length !== 0 &&
-            product?.map((item, index) => (
-              <div className="h-auto w-full bg-[#ddd]">
-                <div className="border flex flex-col">
-                  <div className="w-full relative">
-                    <div className="flex flex-row">
-                      <div className="h-[30px] w-[30px] absolute mt-[8px] ml-[8px]">
+        {
+          loading ?
+            <div className="w-full flex justify-center items-center">
+              <div className="animate-spin">
+                <AiOutlineLoading3Quarters size={40} />
+              </div>
+            </div>
+            :
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2 m-4">
+              {product.length !== 0 &&
+                filteredProduct?.map((item, index) => (
+                  <div className="h-auto w-full bg-[#ddd]">
+                    <div className="border flex flex-col">
+                      <div className="w-full relative">
+                        <div className="flex flex-row">
+                          <div className="h-[30px] w-[30px] absolute mt-[8px] ml-[8px]">
+                            <img
+                              className="h-[350px] max-h-[100%]  w-auto object-cover"
+                              src={`${cdnUrl}/${item?.brand?.link}`}
+                            />
+                          </div>
+                          {item.offer ? (
+                            <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-[red] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
+                              <h1 className="font-bold">
+                                {item.offer && item.offer + "%"}
+                              </h1>
+                            </div>
+                          ) : (
+                            <div className="absolute mt-[8px] right-0 mr-[8px] border-[2px] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
+                              <p>шинэ</p>
+                            </div>
+                          )}
+                        </div>
+                        <div className="w-full">
+                          <img
+                            className="h-[350px] max-h-[100%]  w-full object-cover"
+                            src={`${cdnUrl}/${item.avatar}`}
+                          />
+                        </div>
+                      </div>
+                      <div className="bg-[#fff] flex flex-col py-2 px-[8px]">
+                        <div>
+                          <h2 className="font-bold text-[14px] text-[#000] text-[#444444]">
+                            {item.name}
+                          </h2>
+                          <h4 className="text-[11px] text-[ #666666]">product</h4>
+                        </div>
+                        <div className="flex w-full items-between justify-between">
+                          <p
+                            className={`font-bold py-4 text-[#333333] text-[14px] ${item.offer && "line-through"
+                              }`}
+                          >
+                            {item.price} ₮
+                          </p>
+                          <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
+                            {item.offer &&
+                              item.price - (item.price * item.offer) / 100 + "₮"}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="w-full">
                         <img
-                          className="h-[350px] max-h-[100%]  w-auto object-cover"
-                          src={`${cdnUrl}/${item?.brand?.link}`}
+                          className="h-[350px] max-h-[100%]  w-full object-cover"
+                          src={`${cdnUrl}/${item.avatar}`}
                         />
                       </div>
-                      {item.offer ? (
-                        <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-[red] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
-                          <h1 className="font-bold">
-                            {item.offer && item.offer + "%"}
-                          </h1>
-                        </div>
-                      ) : (
-                        <div className="absolute mt-[8px] right-0 mr-[8px] border-[2px] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
-                          <p>шинэ</p>
-                        </div>
-                      )}
                     </div>
-                    <div className="w-full">
-                      <img
-                        className="h-[350px] max-h-[100%]  w-full object-cover"
-                        src={`${cdnUrl}/${item.avatar}`}
-                      />
-                    </div>
-                  </div>
-                  <div className="bg-[#fff] flex flex-col py-2 px-[8px]">
-                    <div>
-                      <h2 className="font-bold text-[14px] text-[#000] text-[#444444]">
-                        {item.name}
-                      </h2>
-                      <h4 className="text-[11px] text-[ #666666]">product</h4>
-                    </div>
-                    <div className="flex w-full items-between justify-between">
-                      <p
-                        className={`font-bold py-4 text-[#333333] text-[14px] ${
-                          item.offer && "line-through"
-                        }`}
-                      >
-                        {item.price} ₮
-                      </p>
-                      <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
-                        {item.offer &&
-                          item.price - (item.price * item.offer) / 100 + "₮"}
-                      </p>
+                    <div className="bg-[#fff] flex flex-col py-2 px-[8px]">
+                      <div>
+                        <h2 className="font-bold text-[14px] text-[#000] text-[#444444]">
+                          {item.name}
+                        </h2>
+                        <h4 className="text-[11px] text-[ #666666]">product</h4>
+                      </div>
+                      <div className="flex w-full items-between justify-between">
+                        <p
+                          className={`font-bold py-4 text-[#333333] text-[14px] ${item.offer && "line-through"
+                            }`}
+                        >
+                          {item.price} ₮
+                        </p>
+                        <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
+                          {item.offer &&
+                            item.price - (item.price * item.offer) / 100 + "₮"}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
-        </div>
+                ))}
+            </div>
+        }
       </div>
       <div className="flex justify-center">
         <Pagination_detail total={pagination.pageCount} />
