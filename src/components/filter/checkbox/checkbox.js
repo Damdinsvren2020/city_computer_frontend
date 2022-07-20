@@ -11,9 +11,6 @@ const CheckboxFilter = ({ seeProducts, subAngilals, getProductById, getProductBy
   const [max, setMax] = useState(0)
   const [currentIndex, setCurrentIndex] = useState('')
 
-  console.log(subAngilals, "dsjajdajsdjajsjjajajajajajja")
-
-
   const marks = [
     { value: min, label: min },
     { value: max, label: max }
