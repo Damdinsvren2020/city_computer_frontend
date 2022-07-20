@@ -8,7 +8,7 @@ import Checkbox from "../../components/filter/checkbox/checkbox";
 import Pagination_detail from "../../components/filter/pagination/pagination";
 
 import "./delgets.css";
-import Product_detail from "../product_detail/product_detail";
+// import Product_detail from "../product_detail/product_detail";
 const Home = () => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);

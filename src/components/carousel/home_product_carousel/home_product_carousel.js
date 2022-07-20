@@ -4,12 +4,21 @@ import { cdnUrl } from "../../../cdnUrl";
 import Slider from "react-slick";
 const Home_Product = () => {
   const [product, setProduct] = useState([]);
+  const [picturesList, setPictureList] = useState([]);
+
   useEffect(() => {
     const getProduct = async () => {
       const { data } = await axios.get("/product");
       setProduct(data.result);
     };
     getProduct();
+  }, []);
+  useEffect(() => {
+    const getBanner_image = async () => {
+      const { data } = await axios.get("/bannerimages");
+      setPictureList(data.result);
+    };
+    getBanner_image();
   }, []);
   var settings = {
     dots: false,
@@ -46,17 +55,28 @@ const Home_Product = () => {
     ],
   };
   return (
-    <div class="p-[40px]">
-      <h2 class="m-2.5 text-red-600 font-bold	">
-        ЗӨВХӨН энэ 7 хоногт онлайнаар хямдралтай
-      </h2>
+    <div>
+      <div className="w-full h-full">
+        {picturesList.map(
+          (row) =>
+            row.orders === 4 && (
+              <div key={row.id}>
+                <img
+                  class="h-full w-full object-cover	"
+                  src={`${cdnUrl}/${row.thumbnail}`}
+                  alt=""
+                />
+              </div>
+            )
+        )}
+      </div>
       <hr class="bg-red-800		" />
       <Slider {...settings}>
         {product.length !== 0 &&
           product?.map(
             (item, index) =>
               item.offer && (
-                <div className="h-auto w-full bg-[#ddd]">
+                <div className="h-'full' w-[400px] bg-[#ddd]">
                   <div className="border flex flex-col">
                     <div className="w-full relative">
                       <div className="flex flex-row">
@@ -80,7 +100,7 @@ const Home_Product = () => {
                       </div>
                       <div className="w-full">
                         <img
-                          className="h-[350px] max-h-[100%] w-full object-cover"
+                          className="h-[250px] max-h-[100%] w-full object-cover"
                           src={`${cdnUrl}/${item.avatar}`}
                         />
                       </div>
@@ -90,19 +110,21 @@ const Home_Product = () => {
                         <h2 className="font-bold text-[14px] text-[#000] text-[#444444]">
                           {item.name}
                         </h2>
-                        <h4 className="text-[11px] text-[ #666666]">product</h4>
+                        {/* <h4 className="text-[11px] text-[ #666666]">product</h4> */}
                       </div>
-                      <p
-                        className={`font-bold py-4 text-[#333333] text-[14px] ${
-                          item.offer && "line-through"
-                        }`}
-                      >
-                        {item.price} ₮
-                      </p>
-                      <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
-                        {item.offer &&
-                          item.price - (item.price * item.offer) / 100 + "₮"}
-                      </p>
+                      <div className="flex justify-between">
+                        <p
+                          className={`font-bold py-4 text-[#333333] text-[14px] ${
+                            item.offer && "line-through"
+                          }`}
+                        >
+                          {item.price} ₮
+                        </p>
+                        <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
+                          {item.offer &&
+                            item.price - (item.price * item.offer) / 100 + "₮"}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
