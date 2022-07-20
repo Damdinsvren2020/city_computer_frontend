@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
 import "./header.css";
 const Header = ({ getProductById }) => {
 
@@ -14,7 +13,6 @@ const Header = ({ getProductById }) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [FilteredCategory, setFilteredCategory] = useState([]);
   const [whichTab, setWhichTab] = useState("");
-
 
   useEffect(() => {
     axios

@@ -48,7 +48,7 @@ const Partner = () => {
   };
   return (
     <div class="p-[40px]">
-      <h2 class="text-center">Шилдэг борлуулалттай брэнд</h2>
+      <h2 class="text-center text-2xl">Шилдэг борлуулалттай брэнд</h2>
       <Slider {...settings}>
         {brandList.map((row) => (
           <div key={row.id}>

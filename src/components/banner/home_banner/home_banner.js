@@ -1,9 +1,29 @@
-import React from "react";
-import Banner_image from "../../../images/category/1-2.jpeg";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { cdnUrl } from "../../../cdnUrl";
 const Home_banner = () => {
+  const [picturesList, setPictureList] = useState([]);
+  useEffect(() => {
+    const getBanner_image = async () => {
+      const { data } = await axios.get("/bannerimages");
+      setPictureList(data.result);
+    };
+    getBanner_image();
+  }, []);
   return (
-    <div class="p-[40px]">
-      <img class="object-cover w-full" src={Banner_image} alt-="image" />
+    <div class="p-[20px]">
+      {picturesList.map(
+        (row) =>
+          row.orders === 3 && (
+            <div key={row.id}>
+              <img
+                class="h-full w-full object-cover	"
+                src={`${cdnUrl}/${row.thumbnail}`}
+                alt=""
+              />
+            </div>
+          )
+      )}
     </div>
   );
 };
