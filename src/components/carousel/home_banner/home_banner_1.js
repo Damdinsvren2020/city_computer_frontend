@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { cdnUrl } from "../../../cdnUrl";
 import Slider from "react-slick";
 
 const Home_banner_1 = () => {
@@ -9,38 +11,30 @@ const Home_banner_1 = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
   };
+  const [picturesList, setPictureList] = useState([]);
+  useEffect(() => {
+    const getBanner_image = async () => {
+      const { data } = await axios.get("/bannerimages");
+      setPictureList(data.result);
+    };
+    getBanner_image();
+  }, []);
   return (
     <div class="p-[40px]">
       <h2 style={{ textAlign: " center " }}>Цахим тасалбар</h2>
       <Slider {...settings}>
-        <div>
-          <img
-            class="w-full h-full object-contain"
-            src="https://cdn5.shoppy.mn/img/124014/821x0xwebp/event-ice-top.jpg?h=589e2d069506767096a79d94dce78b0f1707386c"
-            alt="Banner_1"
-          />
-        </div>
-        <div>
-          <img
-            class="w-full h-full object-contain"
-            src="https://cdn5.shoppy.mn/img/121350/437x0xwebp/event-ibiza.jpg?h=8beaa660274174c03714227ad1f3b47706fb116c"
-            alt="Banner_2"
-          />
-        </div>
-        <div>
-          <img
-            class="w-full h-full object-contain"
-            src="https://cdn5.shoppy.mn/img/125421/437x0xwebp/event-nft.jpg?h=8beaa660274174c03714227ad1f3b47706fb116c"
-            alt="Banner_3"
-          />
-        </div>
-        <div>
-          <img
-            class="w-full h-full object-contain"
-            src="https://cdn5.shoppy.mn/img/120219/437x0xwebp/hewtee-event-banner-pt.jpg?h=8beaa660274174c03714227ad1f3b47706fb116c"
-            alt="Banner_3"
-          />
-        </div>
+        {picturesList.map(
+          (row) =>
+            row.orders === 4 && (
+              <div key={row.id}>
+                <img
+                  class="h-full w-full object-cover	"
+                  src={`${cdnUrl}/${row.thumbnail}`}
+                  alt=""
+                />
+              </div>
+            )
+        )}
       </Slider>
     </div>
   );

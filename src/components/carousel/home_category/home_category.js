@@ -5,13 +5,21 @@ import { cdnUrl } from "../../../cdnUrl";
 
 const Home_category = () => {
   const [angilal, setAngilal] = useState([]);
+  const [picturesList, setPictureList] = useState([]);
+
   useEffect(() => {
     const getBanner = async () => {
       const { data } = await axios.get("/angilal");
-      console.log("daaaa", data);
       setAngilal(data.data);
     };
     getBanner();
+  }, []);
+  useEffect(() => {
+    const getBanner_image = async () => {
+      const { data } = await axios.get("/bannerimages");
+      setPictureList(data.result);
+    };
+    getBanner_image();
   }, []);
   var settings = {
     dots: false,
@@ -50,10 +58,18 @@ const Home_category = () => {
   return (
     <div class="max-w-[1370px] mx-auto">
       <div className="w-full h-full">
-        <img
-          className="w-full h-full"
-          src="https://cdn5.shoppy.mn/img/117355/2688x0xwebp/CATEGORY-WEB.png?h=cbd5c6f4bd3619cea88a29436ebca3b0a72a1df3"
-        />
+        {picturesList.map(
+          (row) =>
+            row.orders === 2 && (
+              <div key={row.id}>
+                <img
+                  class="h-full w-full object-cover	"
+                  src={`${cdnUrl}/${row.thumbnail}`}
+                  alt=""
+                />
+              </div>
+            )
+        )}
       </div>
       <div class="w-full flex  justify-evenly">
         <Slider {...settings}>
@@ -64,7 +80,7 @@ const Home_category = () => {
                   <div className="w-full relative">
                     <div className="w-full">
                       <img
-                        className="h-[350px] max-h-[100%] w-full object-cover"
+                        className="h-[250px] max-h-[250px] w-full object-cover"
                         src={`${cdnUrl}/${row.link}`}
                       />
                     </div>

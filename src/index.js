@@ -7,6 +7,7 @@ import Product_Detail from "./pages/product_detail/product_detail";
 import Login from "./pages/auth/login/login";
 import Profile from "./pages/auth/profile/profile";
 import SignUp from "./pages/auth/sigup/signup";
+import Single from "./pages/singular/single";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd";
@@ -32,6 +33,7 @@ root.render(
         <Route path="/Login" element={<Login />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Sign_up" element={<SignUp />} />
+        <Route path="/Single" element={<Single />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./header.css";
+import SingleProduct from "../card/product/single/single";
 
+import "./header.css";
 const Header = ({ getProductById }) => {
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [angilal, setAngilal] = useState([]);
+  const [showSubsTitle, setShowSubsTitle] = useState("");
+  const [showSubs, setShowSubs] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
   const [FilteredCategory, setFilteredCategory] = useState([]);
-
+  const [whichTab, setWhichTab] = useState("");
+  function Test() {
+    switch (whichTab) {
+      case "SingleProduct":
+        return <SingleProduct />;
+      default:
+        return <SingleProduct />;
+    }
+  }
   useEffect(() => {
     axios
       .get("/angilal")
       .then((response) => {
         const data = response.data.data;
-        console.log("Sub angin", data);
         setAngilal(data);
         setFilteredCategory(data);
       })
@@ -22,18 +32,10 @@ const Header = ({ getProductById }) => {
         console.log(error);
       });
   }, [refreshKey]);
-  useEffect(() => {
-    axios
-      .get("/angilal")
-      .then((response) => {
-        const data = response.data.data;
-        setAngilal(data);
-        setFilteredCategory(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [refreshKey]);
+  const showSubAngilal = (subs, title) => {
+    setShowSubs(subs);
+    setShowSubsTitle(title);
+  };
   return (
     <>
       <div>
@@ -86,12 +88,10 @@ const Header = ({ getProductById }) => {
             <div className="row subtitle">
               <ul className="sub">
                 <li>
-                  {/* <button
+                  <button
                     onClick={() => getProductById("62bd1b7a6ee0750f2bf6621c")}
                     href="/delgets"
-                  >
-                    hello
-                  </button> */}
+                  ></button>
                 </li>
                 <li>
                   <button
@@ -110,7 +110,6 @@ const Header = ({ getProductById }) => {
             </div>
           </div>
         </div>
-
         {menuDropDown && (
           <section
             style={{ display: menuDropDown ? "flex" : "none" }}
@@ -124,131 +123,36 @@ const Header = ({ getProductById }) => {
                     <ul>
                       {angilal.map((row) => (
                         <li
+                          onMouseOver={() =>
+                            showSubAngilal(row.SubAngilal, row.name)
+                          }
                           style={{ borderBottom: "1px solid #e1e1e1" }}
                           key={row.id}
                         >
-                          <a href="/">{row.name}</a>
+                          <button
+                            onMouseOver={() => showSubAngilal(row.SubAngilal)}
+                          >
+                            {row.name}
+                          </button>
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div className="item item2">
                     <div className="item2-1">
-                      {angilal.map((row) => (
-                        <li
-                          style={{ borderBottom: "1px solid #e1e1e1" }}
-                          key={row.id}
-                        >
-                          <h5>{row.name}</h5>
-                          <ul>
-                            {row?.SubAngilal?.map((item, index) => (
-                              <li>
-                                <a href="/">
-                                  <i className="bi bi-chevron-right" />{" "}
-                                  {item.name}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </li>
-                      ))}
-                      <h5>Суурин компьютер</h5>
+                      <h1 className="text-[30px]">{showSubsTitle}</h1>
                       <ul>
                         <li>
                           <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="item2-2">
-                      <h5>Суурин компьютер</h5>
-                      <ul>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="item item3">
-                    <div className="item3-1">
-                      <h5>Суурин компьютер</h5>
-                      <ul>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="item3-2">
-                      <h5>Суурин компьютер</h5>
-                      <ul>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <i className="bi bi-chevron-right" /> Gamer
+                            {showSubs.length !== 0 &&
+                              showSubs.map((row) => (
+                                <li
+                                  style={{ borderBottom: "1px solid #e1e1e1" }}
+                                  key={row.id}
+                                >
+                                  <h1 className="font-bold">{row.name}</h1>
+                                </li>
+                              ))}
                           </a>
                         </li>
                       </ul>
