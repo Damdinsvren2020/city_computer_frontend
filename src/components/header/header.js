@@ -129,11 +129,7 @@ const Header = ({ getProductById }) => {
                           style={{ borderBottom: "1px solid #e1e1e1" }}
                           key={row.id}
                         >
-                          <button
-                            onMouseOver={() => showSubAngilal(row.SubAngilal)}
-                          >
-                            {row.name}
-                          </button>
+                          <button>{row.name}</button>
                         </li>
                       ))}
                     </ul>
