@@ -15,6 +15,7 @@ import Product_detail from "../product_detail/product_detail";
 const Home = () => {
 
   const { id } = useParams()
+
   const [product, setProduct] = useState([]);
   const [filteredProduct, setFilteredProduct] = useState([])
   const [loading, setLoading] = useState(false);
@@ -29,27 +30,33 @@ const Home = () => {
 
   useEffect(() => {
     if (id) {
-      const getProduct = async () => {
-        setLoading(true);
-        const { data } = await axios.post(`/productAngilal/${id}`);
+      const getAngilal = async () => {
+        const { data } = await axios.post("/verifyAngilal/" + id)
         if (data.success) {
-          setProduct(data.result);
-          setFilteredProduct(data.result)
-          console.log(data.result, "barararara")
-          setPagination(data.pagination);
-          setLoading(false);
+          setAngilalID(data.id)
+          const getProduct = async () => {
+            setLoading(true);
+            const { data } = await axios.post(`/productAngilal/${angilalID}`);
+            if (data.success) {
+              setProduct(data.result);
+              setFilteredProduct(data.result)
+              setPagination(data.pagination);
+              setLoading(false);
+            }
+          };
+          getProduct();
+          const getSubAngilals = async () => {
+            const { data } = await axios.get(`/angilal/${angilalID}`);
+            if (data.success) {
+              setSubAngilals(data.data)
+            }
+          };
+          getSubAngilals()
         }
-      };
-      getProduct();
-      const getSubAngilals = async () => {
-        const { data } = await axios.get(`/angilal/${id}`);
-        if (data.success) {
-          setSubAngilals(data.data)
-        }
-      };
-      getSubAngilals()
+      }
+      getAngilal()
     }
-  }, [angilalID]);
+  }, [id]);
 
 
 
@@ -58,7 +65,7 @@ const Home = () => {
       setLoading(true);
       setFilteredProduct([])
       const { data } = await axios.post(
-        `http://localhost:3001/api/productSubAngilal/${id}`
+        `http://localhost:3001/api/productSubAngilal/${id}/${angilalID}`
       );
       setFilteredProduct(data.result);
       setLoading(false);
@@ -71,7 +78,7 @@ const Home = () => {
       setLoading(true);
       setFilteredProduct([])
       const { data } = await axios.post(
-        `http://localhost:3001/api/productBrand/${id}`
+        `http://localhost:3001/api/productBrand/${id}/${angilalID}`
       );
       setFilteredProduct(data.result);
       setLoading(false);
@@ -90,7 +97,7 @@ const Home = () => {
       formdata.append("min", value[0])
       formdata.append("max", value[1])
       const { data } = await axios.post(
-        `http://localhost:3001/api/productMinMax`, formdata
+        `http://localhost:3001/api/productMinMax/${angilalID}`, formdata
       );
       setFilteredProduct(data.result);
       setLoading(false);
@@ -132,7 +139,7 @@ const Home = () => {
             </div>
             :
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2 m-4">
-              {product.length !== 0 &&
+              {filteredProduct.length !== 0 ?
                 filteredProduct?.map((item, index) => (
                   <div className="h-auto w-full bg-[#ddd]">
                     <div className="border flex flex-col">
@@ -183,35 +190,16 @@ const Home = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="w-full">
-                        <img
-                          className="h-[350px] max-h-[100%]  w-full object-cover"
-                          src={`${cdnUrl}/${item.avatar}`}
-                        />
-                      </div>
-                    </div>
-                    <div className="bg-[#fff] flex flex-col py-2 px-[8px]">
-                      <div>
-                        <h2 className="font-bold text-[14px] text-[#000] text-[#444444]">
-                          {item.name}
-                        </h2>
-                        <h4 className="text-[11px] text-[ #666666]">product</h4>
-                      </div>
-                      <div className="flex w-full items-between justify-between">
-                        <p
-                          className={`font-bold py-4 text-[#333333] text-[14px] ${item.offer && "line-through"
-                            }`}
-                        >
-                          {item.price} ₮
-                        </p>
-                        <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
-                          {item.offer &&
-                            item.price - (item.price * item.offer) / 100 + "₮"}
-                        </p>
-                      </div>
+
                     </div>
                   </div>
-                ))}
+                ))
+                :
+                <div className="w-full ">
+                  Хоосон
+                </div>
+
+              }
             </div>
         }
       </div>
