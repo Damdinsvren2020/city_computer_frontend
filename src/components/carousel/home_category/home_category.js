@@ -11,6 +11,7 @@ const Home_category = () => {
     const getBanner = async () => {
       const { data } = await axios.get("/angilal");
       setAngilal(data.data);
+      console.log(data.data);
     };
     getBanner();
   }, []);

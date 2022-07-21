@@ -3,37 +3,43 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { createStyles, RangeSlider, Checkbox } from "@mantine/core";
 import { Point, GripVertical } from "tabler-icons-react";
-const CheckboxFilter = ({ seeProducts, subAngilals, getProductById, getProductByBrand, product, minMaxProducts }) => {
+const CheckboxFilter = ({
+  seeProducts,
+  subAngilals,
+  getProductById,
+  getProductByBrand,
+  product,
+  minMaxProducts,
+}) => {
   const [angilal, setAngilal] = useState(subAngilals);
   const [brand, setBrand] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [min, setMin] = useState(0)
-  const [max, setMax] = useState(0)
-  const [currentIndex, setCurrentIndex] = useState('')
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState("");
 
-  console.log(subAngilals, "dsjajdajsdjajsjjajajajajajja")
-
+  console.log(subAngilals, "dsjajdajsdjajsjjajajajajajja");
 
   const marks = [
     { value: min, label: min },
-    { value: max, label: max }
+    { value: max, label: max },
   ];
 
   useEffect(() => {
     if (product) {
-      minMAXValue()
+      minMAXValue();
     }
-  }, [product])
+  }, [product]);
 
   function minMAXValue() {
     let array = [];
-    product?.forEach(element => {
+    product?.forEach((element) => {
       if (element.price) {
-        array.push(element.price)
+        array.push(element.price);
       }
     });
-    setMin(Math.min(...array))
-    setMax(Math.max(...array))
+    setMin(Math.min(...array));
+    setMax(Math.max(...array));
   }
 
   const useStyles = createStyles((theme) => ({
@@ -48,10 +54,11 @@ const CheckboxFilter = ({ seeProducts, subAngilals, getProductById, getProductBy
       height: 24,
       backgroundColor: theme.white,
       color: theme.colors.gray[5],
-      border: `1px solid ${theme.colorScheme === "dark"
-        ? theme.colors.dark[2]
-        : theme.colors.gray[3]
-        }`,
+      border: `1px solid ${
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[2]
+          : theme.colors.gray[3]
+      }`,
     },
   }));
   const { classes } = useStyles();
@@ -91,8 +98,8 @@ const CheckboxFilter = ({ seeProducts, subAngilals, getProductById, getProductBy
             color="red"
             radius="xs"
             onClick={() => {
-              getProductById(item._id)
-              setCurrentIndex(item.name)
+              getProductById(item._id);
+              setCurrentIndex(item.name);
             }}
           />
           <label
@@ -113,10 +120,12 @@ const CheckboxFilter = ({ seeProducts, subAngilals, getProductById, getProductBy
               <Checkbox
                 checked={currentIndex === brand.name ? true : false}
                 onClick={() => {
-                  getProductByBrand(brand._id)
-                  setCurrentIndex(brand.name)
+                  getProductByBrand(brand._id);
+                  setCurrentIndex(brand.name);
                 }}
-                color="red" radius="xs" />
+                color="red"
+                radius="xs"
+              />
 
               <label
                 htmlFor="red-checkbox"
@@ -141,7 +150,7 @@ const CheckboxFilter = ({ seeProducts, subAngilals, getProductById, getProductBy
             defaultValue={[min, max]}
             thumbChildren={<GripVertical />}
             marks={marks}
-            onChangeEnd={((value) => minMaxProducts(value))}
+            onChangeEnd={(value) => minMaxProducts(value)}
             min={min}
             max={max}
           />
