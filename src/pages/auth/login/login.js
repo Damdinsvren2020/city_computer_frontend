@@ -6,21 +6,43 @@ import { Link } from "react-router-dom";
 import LoginImage from "./login.webp";
 import Computerimage from "./Computer login.gif";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [refresh, setRefresh] = useState(0);
   const history = useNavigate();
 
   const user_token = localStorage.getItem("user-token");
-  console.log(user_token);
   useEffect(() => {
     if (user_token) {
-      history("/Profile");
+      const authorize = async () => {
+        try {
+          const { data } = await axios.get("authorize", {
+            headers: {
+              authorization: "Bearer " + user_token,
+            },
+          });
+          if (data.success) {
+            if (data.role === "user") {
+              return history("/Profile");
+            }
+            if (data.role === "admin") {
+              return window.location.replace("http://localhost:3002");
+            }
+          } else {
+            history("/Login");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      authorize();
     } else {
       history("/Login");
     }
-  }, [history]);
+  }, [history, refresh]);
 
   const logins = async () => {
     try {
@@ -29,13 +51,18 @@ const Login = () => {
       formdata.append("password", password);
       const { data } = await axios.post("/login", formdata);
       if (data.success) {
-        localStorage.setItem("user-token", JSON.stringify(data.token));
-        history("/Profile");
+        Swal.fire({
+          icon: "success",
+          title: data.user.email,
+        });
+        setRefresh((old) => old + 1);
+        localStorage.setItem("user-token", data.token);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div>
       <Header />

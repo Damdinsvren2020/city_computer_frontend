@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../../components/header/header";
 import Footer from "../../../components/footer/footer";
 import Profiles from "../../../components/profiles/profile/profile";
@@ -6,15 +7,51 @@ import Order from "../../../components/profiles/orders/order";
 import Cupon from "../../../components/profiles/cupon/cupon";
 import "./profile.css";
 import Wishlist from "../../../components/profiles/wishlist/wishlist";
+import axios from "axios";
 
 const Profile = () => {
   const [whichTab, setWhichTab] = useState("");
+  const [refresh, setRefresh] = useState(0);
+  const [user, setUser] = useState([]);
+
+  const history = useNavigate();
+
+  const user_token = localStorage.getItem("user-token");
+  useEffect(() => {
+    if (user_token) {
+      const authorize = async () => {
+        try {
+          const { data } = await axios.get("authorize", {
+            headers: {
+              authorization: "Bearer " + user_token,
+            },
+          });
+          if (data.success) {
+            setUser(data.user);
+            if (data.role === "user") {
+              return history("/Profile");
+            }
+            if (data.role === "admin") {
+              return window.location.replace("http://localhost:3002");
+            }
+          } else {
+            history("/Login");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      authorize();
+    } else {
+      history("/Login");
+    }
+  }, [history, refresh]);
 
   // user.wishlist.length !== 0 ? user.wishlist.map(item) : <div>Hooson baina</div>
   function Test() {
     switch (whichTab) {
       case "Profiles":
-        return <Profiles />;
+        return <Profiles userDetail={user} />;
       case "Coupon":
         return <Cupon />;
       case "WishList":
@@ -33,13 +70,13 @@ const Profile = () => {
               <div className="p-[30px]">
                 <div className="text-center	mb-[20px]">
                   <img
-                    className="w-[120px] h-[120px] rounded-[50%] ml-[55px] flex justify-center	"
+                    className="w-[120px] h-[120px] rounded-[50%] mx-auto flex justify-center object-cover	"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsIT2FkYzXlY2ZbWdgx92VUwLxB2O-7j7wBg&usqp=CAU"
                   />
                 </div>
                 <div className="text-center mb-[20px]">
-                  <h6>Хэрэглэгчийн нэр</h6>
-                  <h5>Хэрэглэгчийн email</h5>
+                  <h6>{user.username}</h6>
+                  <h5>{user.email}</h5>
                 </div>
                 <div className="hetewch">
                   <h5 className="hetewch_h5">Таны хэтэвч</h5>

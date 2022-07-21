@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tabs } from "@mantine/core";
 import { User, Lock, Mail } from "tabler-icons-react";
 
-const Profile = () => {
+const Profile = ({ userDetail }) => {
+  const [username, setUsername] = useState(userDetail?.username);
+  const [email, setEmail] = useState(userDetail?.email);
+  const [password, setPassword] = useState("");
+  const [matchPassword, setMatchPassword] = useState("");
+
   return (
     <div>
       <Tabs color="red" position="center">
@@ -23,6 +28,8 @@ const Profile = () => {
                 </div>
                 <div class="md:w-2/3">
                   <input
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-500"
                     id="inline-full-name"
                     type="text"
@@ -35,11 +42,13 @@ const Profile = () => {
                     class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
                     for="inline-full-name"
                   >
-                    Овог
+                    email
                   </label>
                 </div>
                 <div class="md:w-2/3">
                   <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-500"
                     id="inline-full-name"
                     type="text"

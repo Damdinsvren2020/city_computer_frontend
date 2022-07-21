@@ -1,11 +1,9 @@
-
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import "./header.css";
 const Header = ({ getProductById }) => {
-
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [angilal, setAngilal] = useState([]);
   const [showSubsTitle, setShowSubsTitle] = useState("");
@@ -13,6 +11,42 @@ const Header = ({ getProductById }) => {
   const [refreshKey, setRefreshKey] = useState(0);
   const [FilteredCategory, setFilteredCategory] = useState([]);
   const [whichTab, setWhichTab] = useState("");
+
+  const [refresh, setRefresh] = useState(0);
+  const [user, setUser] = useState([]);
+
+  const history = useNavigate();
+
+  const user_token = localStorage.getItem("user-token");
+  useEffect(() => {
+    if (user_token) {
+      const authorize = async () => {
+        try {
+          const { data } = await axios.get("authorize", {
+            headers: {
+              authorization: "Bearer " + user_token,
+            },
+          });
+          if (data.success) {
+            setUser(data.user);
+            if (data.role === "user") {
+              return history("/Profile");
+            }
+            if (data.role === "admin") {
+              return window.location.replace("http://localhost:3002");
+            }
+          } else {
+            history("/Login");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      authorize();
+    } else {
+      history("/Login");
+    }
+  }, [history, refresh]);
 
   useEffect(() => {
     axios
@@ -69,7 +103,7 @@ const Header = ({ getProductById }) => {
                   </li>
                   <li>
                     <Link to="/Login">
-                      <i className="bi bi-person" />
+                      {user ? user.email : <i className="bi bi-person" />}
                     </Link>
                   </li>
                 </ul>
@@ -98,7 +132,7 @@ const Header = ({ getProductById }) => {
                 {angilal.map((row) => (
                   <li key={row.id}>
                     <Link to={`/D/` + row.name}>
-                      <a >{row.name}</a>
+                      <a>{row.name}</a>
                     </Link>
                   </li>
                 ))}
