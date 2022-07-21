@@ -7,15 +7,7 @@ import ReactImageMagnify from "react-image-magnify";
 // import DemoImage from "./50PUT8215-98.jpeg";
 // import ZoomImage from "./1200px.png";
 
-const Product_detail = () => {
-  const [picturesList, setPictureList] = useState([]);
-  useEffect(() => {
-    const getBanner_image = async () => {
-      const { data } = await axios.get("/bannerimages");
-      setPictureList(data.result);
-    };
-    getBanner_image();
-  }, []);
+const Product_detail = ({ productImages }) => {
 
   return (
     <div style={{ margin: "30px" }} className="carousel">
@@ -33,12 +25,12 @@ const Product_detail = () => {
                   smallImage: {
                     alt: "Wristwatch by Ted Baker London",
                     isFluidWidth: true,
-                    src: `${cdnUrl}/${picturesList[item].thumbnail}`,
+                    src: `${cdnUrl}/${productImages?.imagesProduct[item]}`,
                     width: 100,
                     height: 250,
                   },
                   largeImage: {
-                    src: `${cdnUrl}/${picturesList[item].thumbnail}`,
+                    src: `${cdnUrl}/${productImages?.imagesProduct[item]}`,
                     width: 1200,
                     height: 1800,
                   },
@@ -68,17 +60,16 @@ const Product_detail = () => {
 
         {/* ))} */}
 
-        {picturesList.map(
-          (row) =>
-            row.orders === 1 && (
-              <div key={row.id}>
-                <img
-                  class="h-full w-full object-cover	"
-                  src={`${cdnUrl}/${row.thumbnail}`}
-                  alt=""
-                />
-              </div>
-            )
+        {productImages?.imagesProduct?.map(
+          (row) => (
+            <div key={row._id}>
+              <img
+                class="h-full w-full object-cover	"
+                src={`${cdnUrl}/${row}`}
+                alt=""
+              />
+            </div>
+          )
         )}
       </Slider>
       {/* <div className="w-[342px] h-[512px]">
