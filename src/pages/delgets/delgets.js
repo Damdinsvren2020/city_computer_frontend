@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { cdnUrl } from "../../cdnUrl";
 import "./delgets.css";
@@ -14,7 +14,12 @@ import Product_detail from "../product_detail/product_detail";
 
 const Home = () => {
 
-  const { id } = useParams()
+  const { id, angilalId } = useParams()
+  const location = useLocation()
+
+  if (angilalId) {
+    setAngilalID(angilalId)
+  }
 
   const [product, setProduct] = useState([]);
   const [filteredProduct, setFilteredProduct] = useState([])
@@ -23,49 +28,51 @@ const Home = () => {
   const [pagination, setPagination] = useState({});
   const [angilalID, setAngilalID] = useState("")
   const [subAngilals, setSubAngilals] = useState([])
+  const [matchId, setMatchId] = useState("")
 
-  const cacheAngilalId = (id) => {
-    setAngilalID(id)
-  }
+
 
   useEffect(() => {
-    if (id) {
-      const getAngilal = async () => {
-        const { data } = await axios.post("/verifyAngilal/" + id)
-        if (data.success) {
-          setAngilalID(data.id)
-          const getProduct = async () => {
-            setLoading(true);
-            const { data } = await axios.post(`/productAngilal/${angilalID}`);
-            if (data.success) {
-              setProduct(data.result);
-              setFilteredProduct(data.result)
-              setPagination(data.pagination);
-              setLoading(false);
-            }
-          };
-          getProduct();
-          const getSubAngilals = async () => {
-            const { data } = await axios.get(`/angilal/${angilalID}`);
-            if (data.success) {
-              setSubAngilals(data.data)
-            }
-          };
-          getSubAngilals()
-        }
-      }
+    if (id !== matchId) {
       getAngilal()
     }
-  }, [id]);
+  }, [id, location.pathname, product]);
 
+  useEffect(() => {
+    const getProduct = async () => {
+      setLoading(true);
+      const { data } = await axios.post(`/productAngilal/${angilalID}`);
+      if (data.success) {
+        setProduct(data.result);
+        setFilteredProduct(data.result)
+        setPagination(data.pagination);
+        setLoading(false);
+      }
+    };
+    getProduct();
+    const getSubAngilals = async () => {
+      const { data } = await axios.get(`/angilal/${angilalID}`);
+      if (data.success) {
+        setSubAngilals(data.data)
+      }
+    };
+    getSubAngilals()
+  }, [angilalID, matchId])
 
+  const getAngilal = async () => {
+    const { data } = await axios.post("/verifyAngilal/" + id)
+    if (data.success) {
+      setAngilalID(data.id)
+      setMatchId(data.name)
+    }
+  }
 
   const getProductById = async (id) => {
     try {
       setLoading(true);
       setFilteredProduct([])
       const { data } = await axios.post(
-        `http://localhost:3001/api/productSubAngilal/${id}/${angilalID}`
+        `http://localhost:3001/api/productSubAngilal/${id}/?${angilalID}`
       );
       setFilteredProduct(data.result);
       setLoading(false);
@@ -73,12 +80,13 @@ const Home = () => {
       console.log(error.message);
     }
   };
+
   const getProductByBrand = async (id) => {
     try {
       setLoading(true);
       setFilteredProduct([])
       const { data } = await axios.post(
-        `http://localhost:3001/api/productBrand/${id}/${angilalID}`
+        `http://localhost:3001/api/productBrand/${id}/?${angilalID}`
       );
       setFilteredProduct(data.result);
       setLoading(false);
@@ -108,7 +116,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header getProductByAngilal={(id) => cacheAngilalId(id)} />
+      <Header />
       <div
         class="relative max-w-[1400px] mx-auto md:flex p-[40px]"
         data-dev-hint="container"
@@ -152,7 +160,7 @@ const Home = () => {
                             />
                           </div>
                           {item.offer ? (
-                            <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-[red] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
+                            <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-red-500 border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
                               <h1 className="font-bold">
                                 {item.offer && item.offer + "%"}
                               </h1>
