@@ -72,7 +72,7 @@ const Home = () => {
       setLoading(true);
       setFilteredProduct([])
       const { data } = await axios.post(
-        `http://localhost:3001/api/productSubAngilal/${id}/?${angilalID}`
+        `http://localhost:3001/api/productSubAngilal/${id}/${angilalID}`
       );
       setFilteredProduct(data.result);
       setLoading(false);
@@ -86,7 +86,7 @@ const Home = () => {
       setLoading(true);
       setFilteredProduct([])
       const { data } = await axios.post(
-        `http://localhost:3001/api/productBrand/${id}/?${angilalID}`
+        `http://localhost:3001/api/productBrand/${id}/${angilalID}`
       );
       setFilteredProduct(data.result);
       setLoading(false);
