@@ -16,6 +16,7 @@ const Home_Product = ({ subId }) => {
       getProduct();
     }
   }, [subId]);
+
   useEffect(() => {
     const getBanner_image = async () => {
       const { data } = await axios.get("/bannerimages");
@@ -23,6 +24,7 @@ const Home_Product = ({ subId }) => {
     };
     getBanner_image();
   }, []);
+
   var settings = {
     dots: false,
     infinite: false,
@@ -77,7 +79,7 @@ const Home_Product = ({ subId }) => {
       <Slider {...settings}>
         {product.length !== 0 &&
           product?.map((item, index) => (
-            <Link key={index} to={"/P/" + item._id}>
+            <Link key={index} to={"/P/" + item.name}>
               <div className="h-auto w-full bg-[#ddd]">
                 <div className="border flex flex-col">
                   <div className="w-full relative">

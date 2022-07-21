@@ -144,7 +144,7 @@ const Home = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-2 m-4">
             {filteredProduct.length !== 0 ? (
               filteredProduct?.map((item, index) => (
-                <Link to={"/P/" + item._id}>
+                <Link to={"/P/" + item.name}>
                   <div className="h-auto w-full bg-[#ddd]">
                     <div className="border flex flex-col">
                       <div className="w-full relative">

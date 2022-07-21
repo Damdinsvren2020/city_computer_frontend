@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import axios from "axios";
 import { cdnUrl } from "../../../cdnUrl";
+import { Link } from "react-router-dom";
 
 const Home_category = () => {
   const [angilal, setAngilal] = useState([]);
@@ -74,28 +75,30 @@ const Home_category = () => {
       </div>
       <div class="w-full flex  justify-evenly">
         <Slider {...settings}>
-          {angilal.map((row) => (
-            <div key={row.id} class="w-[300px] px-[20px] ">
-              <div className="h-auto w-full bg-[#ddd]">
-                <div className="border flex flex-col">
-                  <div className="w-full relative">
-                    <div className="w-full">
-                      <img
-                        className="h-[250px] max-h-[250px] w-full object-cover"
-                        src={`${cdnUrl}/${row.link}`}
-                      />
+          {angilal.map((row, index) => (
+            <Link key={index} to={"/D/" + row.name}>
+              <div key={row.id} class="w-[300px] px-[20px] ">
+                <div className="h-auto w-full bg-[#ddd]">
+                  <div className="border flex flex-col">
+                    <div className="w-full relative">
+                      <div className="w-full">
+                        <img
+                          className="h-[250px] max-h-[250px] w-full object-cover"
+                          src={`${cdnUrl}/${row.link}`}
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="bg-[#fff] flex flex-col py-2 px-[8px] flex justify-between">
-                    <div>
-                      <h2 className="font-bold text-[14px] text-[#000] text-[#444444] text-center">
-                        {row.name}
-                      </h2>
+                    <div className="bg-[#fff] flex flex-col py-2 px-[8px] flex justify-between">
+                      <div>
+                        <h2 className="font-bold text-[14px] text-[#000] text-[#444444] text-center">
+                          {row.name}
+                        </h2>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </Slider>
       </div>

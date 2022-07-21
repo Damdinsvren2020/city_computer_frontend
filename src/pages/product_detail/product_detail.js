@@ -20,11 +20,11 @@ const Product_detail = () => {
   useEffect(() => {
     if (name) {
       const getProduct = async () => {
-        const { data } = await axios.get("/product/" + name)
+        const { data } = await axios.get("/singleProduct/" + name)
         if (data.success) {
           setSingleProduct(data.result)
-          setSaveSubID(data.result?.SubID?._id)
-          console.log("subDetail", data.result?.SubID?._id)
+          setSaveSubID(data.result?.SubID)
+          console.log(data.result.SubID)
         }
       }
       getProduct()
