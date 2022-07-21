@@ -14,8 +14,12 @@ import Product_detail from "../product_detail/product_detail";
 
 const Home = () => {
 
-  const { id } = useParams()
+  const { id, angilalId } = useParams()
   const location = useLocation()
+
+  if (angilalId) {
+    setAngilalID(angilalId)
+  }
 
   const [product, setProduct] = useState([]);
   const [filteredProduct, setFilteredProduct] = useState([])
