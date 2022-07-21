@@ -1,7 +1,7 @@
 import React from "react";
 import { HeartOutlined } from "@ant-design/icons";
 
-const Home_Product_detail = () => {
+const Home_Product_detail = ({ detail }) => {
   const style = {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
     borderRadius: 3,
@@ -13,21 +13,27 @@ const Home_Product_detail = () => {
   return (
     <div className="w-[57%]">
       <h1 className="font-sizep-[14px]">
-        ASUS ROG STRIX SCAR G17 G733ZW-LL115W Intel core i9-12900H, DDR5 4800Mhz
-        16GB RAM, 1TB M.2 NVMe PCIe 4.0 SSD, NV RTX3070Ti 8Gb, 240Hz WQHD IPS
-        17.3", Win11 home
+        {detail.name}
       </h1>
-      <div className="flex mt-15">
+      <div className="flex mt-15 flex-col">
         <p>
-          Брэнд: <a href="#"></a>
+          Брэнд:  {detail?.brand?.name}
         </p>
-        <b style={{ color: "#690" }}>Байгаа</b>
-        SKU:23074
+        <b style={{ color: "#690" }}>{detail.quantity !== 0 && "Байгаа"}</b>
+        SKU:{detail.SKU}
       </div>
-      <div className="flex mt-[19px]">
-        <h4 style={{ color: "#690" }}>8,998,000₮</h4>
-        <del>8,338,000₮</del>
-      </div>
+      {
+        detail.offer ? <div className="flex mt-[19px]">
+          <h4 style={{ color: "#690" }}>{Math.round(detail.price - (detail.price * detail.offer / 100))}₮</h4>
+          <del>{detail.price}₮</del>
+        </div>
+          :
+          <div className="flex mt-[19px]">
+            <h4 style={{ color: "#690" }}>{detail.price}₮</h4>
+          </div>
+
+      }
+
       <div className="flex">
         <div>
           <button
@@ -51,9 +57,6 @@ const Home_Product_detail = () => {
       </div>
       <div className="mt-[20px]">
         <hr />
-      </div>
-      <div>
-        <h2 className="mt-[20px]">Барааны код:3900</h2>
       </div>
     </div>
   );

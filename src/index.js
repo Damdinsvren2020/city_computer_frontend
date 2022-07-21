@@ -29,7 +29,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/D/:id" element={<Delgets />} />
-        <Route path="/Product_detail" element={<Product_Detail />} />
+        <Route path="/P/:name" element={<Product_Detail />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Sign_up" element={<SignUp />} />
