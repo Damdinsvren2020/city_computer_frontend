@@ -55,7 +55,7 @@ const Profile = () => {
       case "Coupon":
         return <Cupon />;
       case "WishList":
-        return <Wishlist />;
+        return <Wishlist userDetail={user} />;
       default:
         return <Profiles />;
     }
@@ -88,7 +88,7 @@ const Profile = () => {
                 </div>
                 <div className="hetewch">
                   <h5 className="hetewch_h5">Таны хэтэвч</h5>
-                  <h4>{user.wallet} ₮</h4>
+                  <h4>{user.wallet !== 0 ? user.wallet : "0"} ₮</h4>
                 </div>
                 <div>
                   <ul>
