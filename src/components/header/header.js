@@ -93,7 +93,8 @@ const Header = ({ getProductById }) => {
                   </li>
                   <li>
                     <Link to="/Login">
-                      {user ? user.email : <i className="bi bi-person" />}
+                      {user && user.email}
+                      {<i className="bi bi-person" />}
                     </Link>
                   </li>
                 </ul>

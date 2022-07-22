@@ -40,6 +40,7 @@ const Profile = ({ userDetail }) => {
   const editUsersPassword = async () => {
     let formdata = new FormData();
     formdata.append("password", password);
+
     const { data } = await axios.put(
       `/editUserFrontPassword/${editUserId}`,
       formdata
@@ -127,14 +128,14 @@ const Profile = ({ userDetail }) => {
                   <label
                     class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4 text-center"
                     for="inline-password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                   >
                     Шинэ нууц үг
                   </label>
                 </div>
                 <div class="md:w-2/3">
                   <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-red-500"
                     id="inline-password"
                     type="password"
