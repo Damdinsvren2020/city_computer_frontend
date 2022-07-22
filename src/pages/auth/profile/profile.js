@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../../components/header/header";
 import Footer from "../../../components/footer/footer";
 import Profiles from "../../../components/profiles/profile/profile";
-import Order from "../../../components/profiles/orders/order";
+// import Order from "../../../components/profiles/orders/order";
 import Cupon from "../../../components/profiles/cupon/cupon";
 import "./profile.css";
 import Wishlist from "../../../components/profiles/wishlist/wishlist";
@@ -60,6 +60,14 @@ const Profile = () => {
         return <Profiles />;
     }
   }
+
+  const navigate = useNavigate();
+
+  const LogOutUser = () => {
+    navigate("/");
+    localStorage.clear();
+  };
+
   return (
     <div>
       <Header />
@@ -80,7 +88,7 @@ const Profile = () => {
                 </div>
                 <div className="hetewch">
                   <h5 className="hetewch_h5">Таны хэтэвч</h5>
-                  <h4>0 ₮</h4>
+                  <h4>{user.wallet} ₮</h4>
                 </div>
                 <div>
                   <ul>
@@ -111,7 +119,7 @@ const Profile = () => {
                   </ul>
                   <ul>
                     <li>
-                      <button>Гарах</button>
+                      <button onClick={LogOutUser}>Гарах</button>
                     </li>
                   </ul>
                 </div>

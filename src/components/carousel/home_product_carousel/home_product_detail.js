@@ -12,27 +12,24 @@ const Home_Product_detail = ({ detail }) => {
   };
   return (
     <div className="w-[57%]">
-      <h1 className="font-sizep-[14px]">
-        {detail.name}
-      </h1>
+      <h1 className="font-sizep-[14px]">{detail.name}</h1>
       <div className="flex mt-15 flex-col">
-        <p>
-          Брэнд:  {detail?.brand?.name}
-        </p>
+        <p>Брэнд: {detail?.brand?.name}</p>
         <b style={{ color: "#690" }}>{detail.quantity !== 0 && "Байгаа"}</b>
         SKU:{detail.SKU}
       </div>
-      {
-        detail.offer ? <div className="flex mt-[19px]">
-          <h4 style={{ color: "#690" }}>{Math.round(detail.price - (detail.price * detail.offer / 100))}₮</h4>
+      {detail.offer ? (
+        <div className="flex mt-[19px]">
+          <h4 style={{ color: "#690" }}>
+            {Math.round(detail.price - (detail.price * detail.offer) / 100)}₮
+          </h4>
           <del>{detail.price}₮</del>
         </div>
-          :
-          <div className="flex mt-[19px]">
-            <h4 style={{ color: "#690" }}>{detail.price}₮</h4>
-          </div>
-
-      }
+      ) : (
+        <div className="flex mt-[19px]">
+          <h4 style={{ color: "#690" }}>{detail.price}₮</h4>
+        </div>
+      )}
 
       <div className="flex">
         <div>

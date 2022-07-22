@@ -29,22 +29,12 @@ const Header = ({ getProductById }) => {
           });
           if (data.success) {
             setUser(data.user);
-            if (data.role === "user") {
-              return history("/Profile");
-            }
-            if (data.role === "admin") {
-              return window.location.replace("http://localhost:3002");
-            }
-          } else {
-            history("/Login");
           }
         } catch (error) {
           console.log(error);
         }
       };
       authorize();
-    } else {
-      history("/Login");
     }
   }, [history, refresh]);
 

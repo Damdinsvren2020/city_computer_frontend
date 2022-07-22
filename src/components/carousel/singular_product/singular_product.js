@@ -118,8 +118,9 @@ const Home_Product = ({ subId }) => {
                     </div>
                     <div className="flex w-full items-between justify-between">
                       <p
-                        className={`font-bold py-4 text-[#333333] text-[14px] ${item.offer && "line-through"
-                          }`}
+                        className={`font-bold py-4 text-[#333333] text-[14px] ${
+                          item.offer && "line-through"
+                        }`}
                       >
                         {item.price} ₮
                       </p>
