@@ -1,7 +1,8 @@
 import React from "react";
 import { HeartOutlined } from "@ant-design/icons";
 
-const Home_Product_detail = ({ detail }) => {
+const Home_Product_detail = ({ detail, addToCart }) => {
+
   const style = {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
     borderRadius: 3,
@@ -10,6 +11,7 @@ const Home_Product_detail = ({ detail }) => {
     padding: "0 30px",
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
   };
+
   return (
     <div className="w-[57%]">
       <h1 className="font-sizep-[14px]">{detail.name}</h1>
@@ -34,6 +36,7 @@ const Home_Product_detail = ({ detail }) => {
       <div className="flex">
         <div>
           <button
+            onClick={addToCart}
             type="button"
             class="inline-block  px-6 py-2.5 bg-gray-800 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-900 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg transition duration-150 ease-in-out"
           >
