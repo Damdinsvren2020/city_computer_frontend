@@ -14,33 +14,12 @@ const Wishlist = ({ userDetail }) => {
     const getWishList = async () => {
       const { data } = await axios.get("/userWishlist/" + userDetail._id);
       if (data.success) {
-        if (data.result) {
-          const unique = removeDuplicates(data.result.products, "_id");
-          setWishList(unique);
-        }
+        setWishList(data.result.cartItems);
+        console.log(data.result.cartItems);
       }
     };
     getWishList();
   }, [refreshKey]);
-
-  function removeDuplicates(originalArray, prop) {
-    var newArray = [];
-    var lookupObject = {};
-    var total = {};
-    for (var i in originalArray) {
-      lookupObject[originalArray[i][prop]] = originalArray[i];
-    }
-    originalArray.forEach((element) => {
-      total[element._id] = (total[element._id] || 0) + 1;
-    });
-    for (i in lookupObject) {
-      newArray.push({
-        product: lookupObject[i],
-        count: total,
-      });
-    }
-    return newArray;
-  }
 
   const removeProduct = async (id) => {
     let formdata = new FormData();
@@ -52,9 +31,23 @@ const Wishlist = ({ userDetail }) => {
     });
     if (data.success) {
       setRefreshKey((old) => old + 1);
-      Swal.fire({
-        icon: "success",
-      });
+    }
+  };
+
+  const addToCart = async (singleProduct) => {
+    const price = singleProduct.offer
+      ? singleProduct.price - (singleProduct.price * singleProduct.offer) / 100
+      : singleProduct.price;
+    const { data } = await axios.post("/customer/wishList", {
+      userID: userDetail._id,
+      cartItems: {
+        price: price,
+        quantity: 1,
+        product: singleProduct._id,
+      },
+    });
+    if (data.success) {
+      setRefreshKey((old) => old + 1);
     }
   };
 
@@ -63,8 +56,8 @@ const Wishlist = ({ userDetail }) => {
       <div className="justify-center items-center flex flex-wrap">
         {wishlist.length !== 0 ? (
           wishlist.map((item, index) => (
-            <div className="w-48 justify-center items-center mx-2">
-              <Link key={index} to={"/P/" + item?.product?.name}>
+            <div key={index} className="w-48 justify-center items-center mx-2">
+              <Link to={"/P/" + item?.product?.name}>
                 <div className="h-auto w-full bg-[#ddd]">
                   <div className="border flex flex-col">
                     <div className="w-full relative">
@@ -108,7 +101,7 @@ const Wishlist = ({ userDetail }) => {
                             item?.product?.offer && "line-through"
                           }`}
                         >
-                          {item?.product?.price} ₮
+                          {item?.price} ₮
                         </p>
                         <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
                           {item?.product?.offer &&
@@ -131,8 +124,11 @@ const Wishlist = ({ userDetail }) => {
                     <HiMinus />
                   </h1>
                 </button>
-                <h1 className="text-xl">{item?.count[item?.product?._id]}</h1>
-                <button className="w-8 h-8 rounded-full bg-red-500 text-lg text-white flex justify-center items-center">
+                <h1 className="text-xl">{item?.quantity}</h1>
+                <button
+                  onClick={() => addToCart(item.product)}
+                  className="w-8 h-8 rounded-full bg-red-500 text-lg text-white flex justify-center items-center"
+                >
                   <BsPlusLg />
                 </button>
               </div>

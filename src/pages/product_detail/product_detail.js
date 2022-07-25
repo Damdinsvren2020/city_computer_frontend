@@ -57,11 +57,17 @@ const Product_detail = () => {
   }, [history, refresh]);
 
   const addToCart = async () => {
-    let formdata = new FormData();
-    formdata.append("userID", user._id);
-    formdata.append("productID", singleProduct._id);
-
-    const { data } = await axios.post("/customer/wishList", formdata);
+    const price = singleProduct.offer
+      ? singleProduct.price - (singleProduct.price * singleProduct.offer) / 100
+      : singleProduct.price;
+    const { data } = await axios.post("/customer/wishList", {
+      userID: user._id,
+      cartItems: {
+        price: price,
+        quantity: 1,
+        product: singleProduct._id,
+      },
+    });
     if (data.success) {
       Swal.fire({
         icon: "success",
@@ -78,7 +84,6 @@ const Product_detail = () => {
         <div className="w-full flex">
           <div className="w-[500px] h-[500px]">
             <Product_details productImages={singleProduct} />
-            {/* <Product_image_gallery /> */}
           </div>
           <div className="w-[850px] h-[500px] ">
             <Home_Product_detail
