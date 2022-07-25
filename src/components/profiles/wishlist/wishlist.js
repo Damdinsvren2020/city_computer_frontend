@@ -52,11 +52,11 @@ const Wishlist = ({ userDetail }) => {
 
 
   return (
-    <div class="p-10 w-full  h-full bg-white border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <div className="justify-center items-center flex flex-wrap">
+    <div class="p-10 w-[850px] overflow-auto  h-full bg-white border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <div className="justify-center items-center  flex w-[900px] h-full overflow-auto">
         {
           wishlist.length !== 0 ? wishlist.map((item, index) => (
-            <div key={index} className="w-48 justify-center items-center mx-2">
+            <div key={index} className="w-[200px] h-auto justify-center items-center mx-1">
               <Link to={"/P/" + item?.product?.name}>
                 <div className="h-auto w-full bg-[#ddd]">
                   <div className="border flex flex-col">
@@ -69,7 +69,7 @@ const Wishlist = ({ userDetail }) => {
                           />
                         </div>
                         {item?.product?.offer ? (
-                          <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-[red] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
+                          <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-red-400 border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
                             <h1 className="font-bold">
                               {item?.product?.offer && item?.product?.offer + "%"}
                             </h1>
@@ -99,11 +99,10 @@ const Wishlist = ({ userDetail }) => {
                           className={`font-bold py-4 text-[#333333] text-[14px] ${item?.product?.offer && "line-through"
                             }`}
                         >
-                          {item?.price} ₮
+                          {item?.product?.price} ₮
                         </p>
                         <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
-                          {item?.product?.offer &&
-                            item?.product?.price - (item?.product?.price * item?.product?.offer) / 100 + "₮"}
+                          {item?.product?.offer && item?.product?.price - (item?.product?.price * item?.product?.offer) / 100 + "₮"}
                         </p>
                       </div>
                     </div>

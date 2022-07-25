@@ -69,6 +69,7 @@ const Product_detail = () => {
       },
     });
     if (data.success) {
+      setRefresh(old => old + 1)
       Swal.fire({
         icon: "success",
       });
@@ -79,7 +80,7 @@ const Product_detail = () => {
 
   return (
     <div>
-      <Header />
+      <Header refreshIt={refresh} />
       <div className="max-w-[1200px] mx-auto mt-[30px]  ">
         <div className="w-full flex">
           <div className="w-[500px] h-[500px]">

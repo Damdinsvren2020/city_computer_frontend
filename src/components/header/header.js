@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Avatar, Badge } from 'antd';
 
 import "./header.css";
-const Header = ({ getProductById }) => {
+const Header = ({ getProductById, refreshIt }) => {
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [angilal, setAngilal] = useState([]);
   const [showSubsTitle, setShowSubsTitle] = useState("");
@@ -14,6 +15,8 @@ const Header = ({ getProductById }) => {
 
   const [refresh, setRefresh] = useState(0);
   const [user, setUser] = useState([]);
+
+  const [wishList, setWishList] = useState([])
 
   const history = useNavigate();
 
@@ -29,6 +32,7 @@ const Header = ({ getProductById }) => {
           });
           if (data.success) {
             setUser(data.user);
+            getWishList(data.user)
           }
         } catch (error) {
           console.log(error);
@@ -36,7 +40,7 @@ const Header = ({ getProductById }) => {
       };
       authorize();
     }
-  }, [history, refresh]);
+  }, [history, refresh, refreshIt]);
 
   useEffect(() => {
     axios
@@ -54,6 +58,28 @@ const Header = ({ getProductById }) => {
     setShowSubs(subs);
     setShowSubsTitle(title);
   };
+
+  const getWishList = async (user) => {
+    const { data } = await axios.get("/userWishlist/" + user._id)
+    if (data.success) {
+      setWishList(data.result.cartItems)
+      console.log(data.result.cartItems)
+    }
+  }
+
+  // useEffect(() => {
+  //   if (user) {
+  //     const getWishList = async () => {
+  //       const { data } = await axios.get("/userWishlist/" + user._id)
+  //       if (data.success) {
+  //         setWishList(data.result.cartItems)
+  //         console.log(data.result.cartItems)
+  //       }
+  //     }
+  //     getWishList()
+  //   }
+  // }, [user])
+
   return (
     <>
       <div>
@@ -86,9 +112,12 @@ const Header = ({ getProductById }) => {
                       <i className="bi bi-heart" />
                     </a>
                   </li>
+
                   <li>
-                    <a href="/">
-                      <i className="bi bi-cart3" />
+                    <a href="/Profile">
+                      <Badge count={wishList.length}>
+                        <i className="bi bi-cart3" />
+                      </Badge>
                     </a>
                   </li>
                   <li>
