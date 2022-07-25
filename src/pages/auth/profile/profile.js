@@ -73,7 +73,7 @@ const Profile = () => {
       <Header />
       <div className="max-w-[1200px] mx-auto mt-[30px]">
         <div className="w-full flex">
-          <div className="w-[300px] h-[500px] ">
+          <div className="w-[300px] h-[500px]">
             <div class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 ">
               <div className="p-[30px]">
                 <div className="text-center	mb-[20px]">

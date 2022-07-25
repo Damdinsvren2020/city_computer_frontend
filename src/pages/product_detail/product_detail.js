@@ -12,31 +12,30 @@ import Singular_Product from "../../components/carousel/singular_product/singula
 import axios from "axios";
 
 const Product_detail = () => {
+  const [singleProduct, setSingleProduct] = useState([]);
+  const [saveSubID, setSaveSubID] = useState("");
 
-  const [singleProduct, setSingleProduct] = useState([])
-  const [saveSubID, setSaveSubID] = useState('')
-
-  const { name } = useParams()
+  const { name } = useParams();
   useEffect(() => {
     if (name) {
       const getProduct = async () => {
-        const { data } = await axios.get("/singleProduct/" + name)
+        const { data } = await axios.get("/singleProduct/" + name);
         if (data.success) {
-          setSingleProduct(data.result)
-          setSaveSubID(data.result?.SubID)
-          console.log(data.result.SubID)
+          setSingleProduct(data.result);
+          setSaveSubID(data.result?.SubID);
+          console.log(data.result.SubID);
         }
-      }
-      getProduct()
+      };
+      getProduct();
     }
-  }, [name])
+  }, [name]);
 
   // console.log(singleProduct.SubID._id)
 
   return (
     <div>
       <Header />
-      <div className="max-w-[1200px] mx-auto mt-[30px]">
+      <div className="max-w-[1200px] mx-auto mt-[30px]  ">
         <div className="w-full flex">
           <div className="w-[500px] h-[500px]">
             <Product_details productImages={singleProduct} />
