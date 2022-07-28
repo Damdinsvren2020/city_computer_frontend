@@ -179,18 +179,23 @@ const Home = () => {
                           <h2 className="font-bold text-[14px] text-[#000] text-[#444444]">
                             {item.name}
                           </h2>
-                          <h4 className="text-[11px] text-[ #666666]">product</h4>
+                          <h4 className="text-[11px] text-[ #666666]">
+                            product
+                          </h4>
                         </div>
                         <div className="flex w-full items-between justify-between">
                           <p
-                            className={`font-bold py-4 text-[#333333] text-[14px] ${item.offer && "line-through"
-                              }`}
+                            className={`font-bold py-4 text-[#333333] text-[14px] ${
+                              item.offer && "line-through"
+                            }`}
                           >
                             {item.price} ₮
                           </p>
                           <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
                             {item.offer &&
-                              item.price - (item.price * item.offer) / 100 + "₮"}
+                              item.price -
+                                (item.price * item.offer) / 100 +
+                                "₮"}
                           </p>
                         </div>
                       </div>

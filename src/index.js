@@ -8,6 +8,10 @@ import Login from "./pages/auth/login/login";
 import Profile from "./pages/auth/profile/profile";
 import SignUp from "./pages/auth/sigup/signup";
 import Single from "./pages/singular/single";
+import SingleNews from "./pages/news/newsdetail";
+import Card from "./pages/orders/card/card";
+import Checkout from "./pages/orders/checkout/checkout";
+import Approve from "./pages/orders/approve/approve";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd";
@@ -34,6 +38,10 @@ root.render(
         <Route path="/Profile" element={<Profile />} />
         <Route path="/Sign_up" element={<SignUp />} />
         <Route path="/Single" element={<Single />} />
+        <Route path="/S/:id" element={<SingleNews />} />
+        <Route path="/Checkout" element={<Checkout />} />
+        <Route path="/Card" element={<Card />} />
+        <Route path="/Approve" element={<Approve />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { cdnUrl } from "../../../cdnUrl";
 import "./home_news.css";
-import News from "../../card/news/news";
 import Slider from "react-slick";
+import { Link } from "react-router-dom";
 
 const Home_news = () => {
+  const [newslist, setNewslist] = useState([]);
+  useEffect(() => {
+    const getnewlist = async () => {
+      const { data } = await axios.get("/news");
+      setNewslist(data.result);
+    };
+    getnewlist();
+  }, []);
   var settings = {
     dots: true,
     infinite: false,
@@ -40,19 +50,22 @@ const Home_news = () => {
   };
   return (
     <div class="w-full h-full">
+      <div className="w-full">
+        {/* <h2 className="ml-[10px]">Мэдээ мэдээлэл</h2> */}
+      </div>
       <Slider {...settings}>
-        <div>
-          <News />
-        </div>
-        <div>
-          <News />
-        </div>
-        <div>
-          <News />
-        </div>
-        <div>
-          <News />
-        </div>
+        {newslist.map((row, index) => (
+          <Link key={index} to={"/S/" + row.name}>
+            <div>
+              <img
+                className="w-[450px] h-[350px] object-cover"
+                src={`${cdnUrl}/${row.link}`}
+              />
+              <h2>{row.name}</h2>
+              {/* <h2>{row.description}</h2> */}
+            </div>
+          </Link>
+        ))}
       </Slider>
     </div>
   );

@@ -1,25 +1,54 @@
-import React from "react";
-import { Card } from "antd";
-import "./news.css";
-const { Meta } = Card;
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { cdnUrl } from "../../../cdnUrl";
+const SingleProduct = () => {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const getNews = async () => {
+      setLoading(true);
+      const { data } = await axios.get("/singlenews");
+      setNews(data.result);
+      setLoading(false);
+    };
+    getNews();
+  }, []);
 
-const News = () => (
-  <Card
-    hoverable
-    className="NewsCard"
-    cover={
-      <img
-        alt="example"
-        src="https://citycomputer.mn/wp-content/uploads/2021/10/245994233_425186512550276_6199386403565194933_n.png"
-      />
-    }
-  >
-    <Meta
-      style={{ textAlign: "center" }}
-      title="Title"
-      description="description"
-    />
-  </Card>
-);
+  return (
+    <div className="max-w-[1200px] mx-auto mt-[30px] h-[full">
+      <div className="w-full flex">
+        <div className="w-[1100px] ml-[20px] h-[500px]">
+          {news.map((row, index) => (
+            <div>
+              <img
+                className="w-[450px] h-[350px] object-cover"
+                src={`${cdnUrl}/${row.link}`}
+              />
+              <h2>{row.name}</h2>
+              <h2>{row.description}</h2>
+            </div>
+          ))}
+        </div>
+        <div className="w-[100px] h-[500px] ml-[10px] scroll-smooth hover:scroll-auto">
+          <div className="pt-[15px] mb-[30px] bg-[white] w-[380px] sm:block">
+            <h5>Сүүлд нэмэгдсэн</h5>
+            <div className="flex mt-[20px] sm-hidden md-hidden">
+              <div>
+                <img
+                  className="w-[150px] h-[80px]"
+                  src="https://cdn5.shoppy.mn/img/128771/80x60xwebp/naadam_niitlel-04.jpg?h=762357f34abced47a3a7de51413b114615adb922"
+                />
+              </div>
+              <div>
+                <h2 className="">2022/07/06</h2>
+                <h2>WhyNaadam? | Монголчуудын ялгарах үндэсний брэнд Наадам</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default News;
+export default SingleProduct;

@@ -69,7 +69,7 @@ const Product_detail = () => {
       },
     });
     if (data.success) {
-      setRefresh(old => old + 1)
+      setRefresh((old) => old + 1);
       Swal.fire({
         icon: "success",
       });

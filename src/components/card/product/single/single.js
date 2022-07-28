@@ -8,6 +8,7 @@ const SingleProduct = () => {
     const getProduct = async () => {
       setLoading(true);
       const { data } = await axios.get("/product");
+      console.log("single product", data);
       setProduct(data.result);
       setLoading(false);
     };
