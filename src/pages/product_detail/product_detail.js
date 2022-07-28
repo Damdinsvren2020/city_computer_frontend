@@ -60,7 +60,7 @@ const Product_detail = () => {
     const price = singleProduct.offer
       ? singleProduct.price - (singleProduct.price * singleProduct.offer) / 100
       : singleProduct.price;
-    const { data } = await axios.post("/customer/wishList", {
+    const { data } = await axios.post("/customer/cart", {
       userID: user._id,
       cartItems: {
         price: price,
@@ -76,6 +76,19 @@ const Product_detail = () => {
     }
   };
 
+  const addToWishList = async () => {
+    let formdata = new FormData()
+    formdata.append("productID", singleProduct._id)
+    formdata.append("userID", user._id)
+    const { data } = await axios.post("/customer/wishlist", formdata);
+    if (data.success) {
+      setRefresh((old) => old + 1);
+      Swal.fire({
+        icon: "success",
+      });
+    }
+  }
+
   // console.log(singleProduct.SubID._id)
 
   return (
@@ -89,6 +102,7 @@ const Product_detail = () => {
           <div className="w-[850px] h-[500px] ">
             <Home_Product_detail
               addToCart={() => addToCart()}
+              addToWishList={() => addToWishList()}
               detail={singleProduct}
             />
           </div>

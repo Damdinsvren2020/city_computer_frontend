@@ -17,6 +17,7 @@ const Header = ({ getProductById, refreshIt }) => {
   const [user, setUser] = useState([]);
 
   const [wishList, setWishList] = useState([])
+  const [dropDownCart, setDropDownCart] = useState(false)
 
   const history = useNavigate();
 
@@ -60,7 +61,7 @@ const Header = ({ getProductById, refreshIt }) => {
   };
 
   const getWishList = async (user) => {
-    const { data } = await axios.get("/userWishlist/" + user._id)
+    const { data } = await axios.get("/userCart/" + user._id)
     if (data.success) {
       setWishList(data.result.cartItems)
       console.log(data.result.cartItems)
@@ -79,6 +80,8 @@ const Header = ({ getProductById, refreshIt }) => {
   //     getWishList()
   //   }
   // }, [user])
+
+
 
   return (
     <>
@@ -119,6 +122,23 @@ const Header = ({ getProductById, refreshIt }) => {
                         <i className="bi bi-cart3" />
                       </Badge>
                     </a>
+                    {
+                      dropDownCart &&
+                      <div className="w-48 rounded-xl absolute top-25 right-52 z-30 h-48 bg-white overflow-auto p-2">
+                        {
+                          wishList.length !== 0 ? wishList.map((item, index) => {
+                            <div className="w-full p-2 text-xl">
+                              <h1>{item?.product?.name}</h1>
+                              <h1>{item?.price}</h1>
+                            </div>
+                          })
+                            :
+                            <div>
+                              hooson
+                            </div>
+                        }
+                      </div>
+                    }
                   </li>
                   <li>
                     <Link to="/Login">
@@ -135,12 +155,12 @@ const Header = ({ getProductById, refreshIt }) => {
           <div className="container con1">
             <div className="row subtitle">
               <ul className="sub">
-                <li>
+                {/* <li>
                   <button
                     onClick={() => getProductById("62bd1b7a6ee0750f2bf6621c")}
                     href="/delgets"
                   ></button>
-                </li>
+                </li> */}
                 <li>
                   <button
                     onClick={() => setMenuDropDown(!menuDropDown)}

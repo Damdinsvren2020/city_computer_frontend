@@ -19,6 +19,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
 import reportWebVitals from "./reportWebVitals";
+import Order from "./pages/orders/order/order";
 
 const token = localStorage.getItem("token");
 
@@ -39,9 +40,7 @@ root.render(
         <Route path="/Sign_up" element={<SignUp />} />
         <Route path="/Single" element={<Single />} />
         <Route path="/S/:id" element={<SingleNews />} />
-        <Route path="/Checkout" element={<Checkout />} />
-        <Route path="/Card" element={<Card />} />
-        <Route path="/Approve" element={<Approve />} />
+        <Route path="/Order" element={<Order />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

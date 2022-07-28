@@ -1,7 +1,7 @@
 import React from "react";
 import { HeartOutlined } from "@ant-design/icons";
 
-const Home_Product_detail = ({ detail, addToCart }) => {
+const Home_Product_detail = ({ detail, addToCart, addToWishList }) => {
   const style = {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
     borderRadius: 3,
@@ -50,7 +50,7 @@ const Home_Product_detail = ({ detail, addToCart }) => {
             Худалдаж авах
           </button>
         </div>
-        <div className="ml-[12px] mt-[10px] flex">
+        <div onClick={addToWishList} className="ml-[12px] mt-[10px] flex cursor-pointer">
           <HeartOutlined />
         </div>
       </div>

@@ -5,7 +5,6 @@ import Footer from "../../../components/footer/footer";
 const Approve = () => {
   return (
     <div>
-      <Header />
       <div className="relative max-w-[1400px] mx-auto md:flex p-[40px]">
         <div className="w-[800px]">
           <h2 className="font-bold">Захиалгын дэлгэрэнгүй</h2>
@@ -84,8 +83,6 @@ const Approve = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

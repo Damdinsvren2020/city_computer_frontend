@@ -8,6 +8,7 @@ import Cupon from "../../../components/profiles/cupon/cupon";
 import "./profile.css";
 import Wishlist from "../../../components/profiles/wishlist/wishlist";
 import axios from "axios";
+import Basket from "../../../components/profiles/basket/basket";
 
 const Profile = () => {
   const [whichTab, setWhichTab] = useState("");
@@ -54,6 +55,8 @@ const Profile = () => {
         return <Profiles userDetail={user} />;
       case "Coupon":
         return <Cupon />;
+      case "Basket":
+        return <Basket userDetail={user} />;
       case "WishList":
         return <Wishlist userDetail={user} />;
       default:
@@ -114,7 +117,7 @@ const Profile = () => {
                   </ul>
                   <ul>
                     <li>
-                      <button>Миний сагс</button>
+                      <button onClick={() => setWhichTab("Basket")}>Миний сагс</button>
                     </li>
                   </ul>
                   <ul>
