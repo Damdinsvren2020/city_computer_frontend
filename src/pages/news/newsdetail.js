@@ -22,15 +22,15 @@ const News = () => {
       getNEws();
     }
   }, [id]);
+
   return (
     <div>
       <Header />
       <div className="max-w-[1200px] mx-auto mt-[30px]">
         <div className="w-full flex">
-          <h1>{singleNews.name}</h1>
           <div className="w-[850px] h-[500px]">
             {/* <NewsCarousel detail={singleNews} /> */}
-            <NewsDetail />
+            <NewsDetail newsDetail={singleNews} />
           </div>
         </div>
       </div>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
 import axios from "axios";
 import { cdnUrl } from "../../../cdnUrl";
+import Slider from "react-slick";
 import { Link } from "react-router-dom";
 
 const Home_category = () => {
-  const [angilal, setAngilal] = useState([]);
   const [picturesList, setPictureList] = useState([]);
+  const [angilal, setAngilal] = useState([]);
 
   useEffect(() => {
     const getBanner = async () => {
@@ -46,6 +46,7 @@ const Home_category = () => {
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2,
+          dots: false,
         },
       },
       {
@@ -53,12 +54,13 @@ const Home_category = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          dots: false,
         },
       },
     ],
   };
   return (
-    <div class="max-w-[1370px] mx-auto">
+    <div className="max-w-[1370px] mx-auto">
       <div className="w-full h-full">
         {picturesList.map(
           (row) =>
@@ -73,12 +75,12 @@ const Home_category = () => {
             )
         )}
       </div>
-      <div class="w-full flex  justify-evenly">
-        <Slider {...settings}>
-          {angilal.map((row, index) => (
-            <Link key={index} to={"/D/" + row.name}>
+      <Slider {...settings}>
+        {angilal.map((row, index) => (
+          <Link key={index} to={"/D/" + row.name}>
+            <div className="w-full flex  justify-evenly">
               <div key={row.id} class="w-[300px] px-[20px] ">
-                <div className="h-auto w-full bg-[#ddd]">
+                <div className="h-auto w-full">
                   <div className="border flex flex-col">
                     <div className="w-full relative">
                       <div className="w-full">
@@ -98,10 +100,10 @@ const Home_category = () => {
                   </div>
                 </div>
               </div>
-            </Link>
-          ))}
-        </Slider>
-      </div>
+            </div>
+          </Link>
+        ))}
+      </Slider>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const Home_banner = () => {
     getBanner_image();
   }, []);
   return (
-    <div class="p-[20px]">
+    <div>
       {picturesList.map(
         (row) =>
           row.orders === 3 && (

@@ -28,7 +28,7 @@ const Home_news = () => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -37,6 +37,7 @@ const Home_news = () => {
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2,
+          dots: false,
         },
       },
       {
@@ -44,6 +45,7 @@ const Home_news = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          dots: false,
         },
       },
     ],
@@ -51,18 +53,33 @@ const Home_news = () => {
   return (
     <div class="w-full h-full">
       <div className="w-full">
-        {/* <h2 className="ml-[10px]">Мэдээ мэдээлэл</h2> */}
+        <h2 className="text-center">Мэдээ</h2>
       </div>
       <Slider {...settings}>
         {newslist.map((row, index) => (
           <Link key={index} to={"/S/" + row.name}>
-            <div>
-              <img
-                className="w-[450px] h-[350px] object-cover"
-                src={`${cdnUrl}/${row.link}`}
-              />
-              <h2>{row.name}</h2>
-              {/* <h2>{row.description}</h2> */}
+            <div className="w-full flex  justify-evenly">
+              <div key={row.id} class="w-[300px] px-[20px] ">
+                <div className="h-auto w-full">
+                  <div className="border flex flex-col">
+                    <div className="w-full relative">
+                      <div className="w-full">
+                        <img
+                          className="h-[250px] max-h-[250px] w-full object-cover"
+                          src={`${cdnUrl}/${row.link}`}
+                        />
+                      </div>
+                    </div>
+                    <div className="bg-[#fff] flex flex-col py-2 px-[8px] flex justify-between">
+                      <div>
+                        <h2 className="font-bold text-[14px] text-[#000] text-[#444444] text-center">
+                          {row.name}
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </Link>
         ))}

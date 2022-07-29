@@ -35,7 +35,7 @@ const Home_Product = () => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -44,6 +44,7 @@ const Home_Product = () => {
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2,
+          dots: false,
         },
       },
       {
@@ -51,12 +52,13 @@ const Home_Product = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          dots: false,
         },
       },
     ],
   };
   return (
-    <div>
+    <div className="max-w-[1370px] mx-auto">
       <div className="w-full h-full">
         {picturesList.map(
           (row) =>
@@ -71,58 +73,63 @@ const Home_Product = () => {
             )
         )}
       </div>
-      <hr class="bg-red-800		" />
       <Slider {...settings}>
         {product.length !== 0 &&
           product?.map((item, index) => (
             <Link key={index} to={"/P/" + item.name}>
-              <div className="h-auto w-full bg-[#ddd]">
-                <div className="border flex flex-col">
-                  <div className="w-full relative">
-                    <div className="flex flex-row">
-                      <div className="h-[30px] w-[30px] absolute mt-[8px] ml-[8px]">
-                        <img
-                          className="h-[250px] max-h-[100%]  w-auto object-cover"
-                          src={`${cdnUrl}/${item?.brand?.link}`}
-                        />
+              <div className="w-full flex justify-evenly">
+                <div key={item.id} className="w-[350px] px-[20px]">
+                  <div className="h-auto w-full bg-[#ddd]">
+                    <div className="border flex flex-col">
+                      <div className="w-full relative">
+                        <div className="flex flex-row">
+                          <div className="h-[30px] w-[30px] absolute mt-[8px] ml-[8px]">
+                            <img
+                              className="h-[250px] max-h-[100%]  w-auto object-cover"
+                              src={`${cdnUrl}/${item?.brand?.link}`}
+                            />
+                          </div>
+                          {item.offer ? (
+                            <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-[red] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
+                              <h1 className="font-bold">
+                                {item.offer && item.offer + "%"}
+                              </h1>
+                            </div>
+                          ) : (
+                            <div className="absolute mt-[8px] right-0 mr-[8px] border-[2px] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
+                              <p>шинэ</p>
+                            </div>
+                          )}
+                        </div>
+                        <div className="w-full">
+                          <img
+                            className="h-[350px] max-h-[100%]  w-full object-cover"
+                            src={`${cdnUrl}/${item.avatar}`}
+                          />
+                        </div>
                       </div>
-                      {item.offer ? (
-                        <div className="absolute mt-[8px] right-0 mr-[8px] text-white border-[2px] bg-[red] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
-                          <h1 className="font-bold">
-                            {item.offer && item.offer + "%"}
-                          </h1>
+                      <div className="bg-[#fff] flex flex-col py-2 px-[8px]">
+                        <div>
+                          <h2 className="font-bold text-[14px] text-[#000] text-[#444444]">
+                            {item.name}
+                          </h2>
                         </div>
-                      ) : (
-                        <div className="absolute mt-[8px] right-0 mr-[8px] border-[2px] border-[red] px-[10px] py-[3px] rounded-md bg-[#fff] text-[12px]">
-                          <p>шинэ</p>
+                        <div className="flex w-full items-between justify-between">
+                          <p
+                            className={`font-bold py-4 text-[#333333] text-[14px] ${
+                              item.offer && "line-through"
+                            }`}
+                          >
+                            {item.price} ₮
+                          </p>
+                          <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
+                            {item.offer &&
+                              item.price -
+                                (item.price * item.offer) / 100 +
+                                "₮"}
+                          </p>
                         </div>
-                      )}
-                    </div>
-                    <div className="w-full">
-                      <img
-                        className="h-[350px] max-h-[100%]  w-full object-cover"
-                        src={`${cdnUrl}/${item.avatar}`}
-                      />
-                    </div>
-                  </div>
-                  <div className="bg-[#fff] flex flex-col py-2 px-[8px]">
-                    <div>
-                      <h2 className="font-bold text-[14px] text-[#000] text-[#444444]">
-                        {item.name}
-                      </h2>
-                    </div>
-                    <div className="flex w-full items-between justify-between">
-                      <p
-                        className={`font-bold py-4 text-[#333333] text-[14px] ${
-                          item.offer && "line-through"
-                        }`}
-                      >
-                        {item.price} ₮
-                      </p>
-                      <p className="font-bold py-4 text-[#333333] text-[14px] text-red-500 ">
-                        {item.offer &&
-                          item.price - (item.price * item.offer) / 100 + "₮"}
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>

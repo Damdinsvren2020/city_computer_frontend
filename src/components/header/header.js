@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Avatar, Badge } from 'antd';
+import { Avatar, Badge } from "antd";
 
 import "./header.css";
 const Header = ({ getProductById, refreshIt }) => {
@@ -16,8 +16,8 @@ const Header = ({ getProductById, refreshIt }) => {
   const [refresh, setRefresh] = useState(0);
   const [user, setUser] = useState([]);
 
-  const [wishList, setWishList] = useState([])
-  const [dropDownCart, setDropDownCart] = useState(false)
+  const [wishList, setWishList] = useState([]);
+  const [dropDownCart, setDropDownCart] = useState(false);
 
   const history = useNavigate();
 
@@ -33,7 +33,7 @@ const Header = ({ getProductById, refreshIt }) => {
           });
           if (data.success) {
             setUser(data.user);
-            getWishList(data.user)
+            getWishList(data.user);
           }
         } catch (error) {
           console.log(error);
@@ -61,12 +61,12 @@ const Header = ({ getProductById, refreshIt }) => {
   };
 
   const getWishList = async (user) => {
-    const { data } = await axios.get("/userCart/" + user._id)
+    const { data } = await axios.get("/userCart/" + user._id);
     if (data.success) {
-      setWishList(data.result.cartItems)
-      console.log(data.result.cartItems)
+      setWishList(data.result.cartItems);
+      console.log(data.result.cartItems);
     }
-  }
+  };
 
   // useEffect(() => {
   //   if (user) {
@@ -80,8 +80,6 @@ const Header = ({ getProductById, refreshIt }) => {
   //     getWishList()
   //   }
   // }, [user])
-
-
 
   return (
     <>
@@ -97,10 +95,12 @@ const Header = ({ getProductById, refreshIt }) => {
                 <i className="bi bi-x" id="x-icon" />
               </button>
               <div className="col-md-3 logo">
-                <img
-                  src="https://citycomputer.mn/wp-content/uploads/2022/04/logo-1.png"
-                  alt="ss"
-                />
+                <Link to="/">
+                  <img
+                    src="https://citycomputer.mn/wp-content/uploads/2022/04/logo-1.png"
+                    alt="ss"
+                  />
+                </Link>
               </div>
               <div className="col-md-6 search">
                 <input type="text" placeholder="Хайх утгаа оруулна уу..." />
@@ -122,23 +122,20 @@ const Header = ({ getProductById, refreshIt }) => {
                         <i className="bi bi-cart3" />
                       </Badge>
                     </a>
-                    {
-                      dropDownCart &&
+                    {dropDownCart && (
                       <div className="w-48 rounded-xl absolute top-25 right-52 z-30 h-48 bg-white overflow-auto p-2">
-                        {
-                          wishList.length !== 0 ? wishList.map((item, index) => {
+                        {wishList.length !== 0 ? (
+                          wishList.map((item, index) => {
                             <div className="w-full p-2 text-xl">
                               <h1>{item?.product?.name}</h1>
                               <h1>{item?.price}</h1>
-                            </div>
+                            </div>;
                           })
-                            :
-                            <div>
-                              hooson
-                            </div>
-                        }
+                        ) : (
+                          <div>hooson</div>
+                        )}
                       </div>
-                    }
+                    )}
                   </li>
                   <li>
                     <Link to="/Login">

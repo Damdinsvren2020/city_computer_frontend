@@ -13,22 +13,22 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <div className="mt-[5px]">
+      <div className="mt-[20px]">
         <Homebanner />
       </div>
-      <div>
+      <div className="mt-[20px]">
         <Homecategory />
       </div>
-      <div>
+      <div className="mt-[20px]">
         <Homeminibanner />
       </div>
-      <div>
+      <div className="mt-[20px]">
         <Homeproductcarousel />
       </div>
-      <div className="mt-[10px]">
+      <div className="mt-[20px]">
         <News />
       </div>
-      <div>
+      <div className="mt-[20px]">
         <Partner />
       </div>
       <Footer />

@@ -26,7 +26,7 @@ const Partner = () => {
           slidesToShow: 6,
           slidesToScroll: 6,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -35,6 +35,7 @@ const Partner = () => {
           slidesToShow: 4,
           slidesToScroll: 4,
           initialSlide: 2,
+          dots: false,
         },
       },
       {
@@ -42,21 +43,31 @@ const Partner = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          dots: false,
         },
       },
     ],
   };
   return (
-    <div class="p-[40px]">
-      <h2 class="text-center text-2xl">Шилдэг борлуулалттай брэнд</h2>
+    <div className="max-w[1370px] mx-auto">
+      <h2 className="text-center">Хамтрагч байгууллагууд</h2>
       <Slider {...settings}>
-        {brandList.map((row) => (
-          <div key={row.id}>
-            <img
-              class="h-full w-full object-cover	"
-              src={`${cdnUrl}/${row.link}`}
-              alt=""
-            />
+        {brandList.map((row, index) => (
+          <div className="w-full flex  justify-evenly">
+            <div key={row.id} class="w-[300px] px-[20px] ">
+              <div className="h-auto w-full">
+                <div className="flex flex-col">
+                  <div className="w-full relative">
+                    <div className="w-full">
+                      <img
+                        className="h-[150px] w-[450px] w-full object-cover"
+                        src={`${cdnUrl}/${row.link}`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         ))}
       </Slider>

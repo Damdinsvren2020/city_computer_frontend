@@ -1,49 +1,67 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { cdnUrl } from "../../../cdnUrl";
-const SingleProduct = () => {
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(false);
+import { Parser } from "html-to-react";
+import { Link } from "react-router-dom";
+
+const SingleProduct = ({ newsDetail }) => {
+  const [newslist, setNewslist] = useState([]);
   useEffect(() => {
-    const getNews = async () => {
-      setLoading(true);
-      const { data } = await axios.get("/singlenews");
-      setNews(data.result);
-      setLoading(false);
+    const getnewlist = async () => {
+      const { data } = await axios.get("/news");
+      setNewslist(data.result.reverse().slice(0, 3));
     };
-    getNews();
+    getnewlist();
   }, []);
+
+  const convertDate = (date) => {
+    let convertedDate = date.split("T");
+    return convertedDate[0];
+  };
+
+  const convertTime = (date) => {
+    let convertedDate = date.split("T");
+    let convertTime = convertedDate[1].split(".");
+    return convertTime[0];
+  };
 
   return (
     <div className="max-w-[1200px] mx-auto mt-[30px] h-[full">
       <div className="w-full flex">
         <div className="w-[1100px] ml-[20px] h-[500px]">
-          {news.map((row, index) => (
-            <div>
-              <img
-                className="w-[450px] h-[350px] object-cover"
-                src={`${cdnUrl}/${row.link}`}
-              />
-              <h2>{row.name}</h2>
-              <h2>{row.description}</h2>
-            </div>
-          ))}
+          <div>
+            <img
+              className="w-[450px] h-[350px] object-cover"
+              src={`${cdnUrl}/${newsDetail.link}`}
+            />
+            {Parser().parse(newsDetail.description)}
+          </div>
         </div>
         <div className="w-[100px] h-[500px] ml-[10px] scroll-smooth hover:scroll-auto">
-          <div className="pt-[15px] mb-[30px] bg-[white] w-[380px] sm:block">
-            <h5>Сүүлд нэмэгдсэн</h5>
-            <div className="flex mt-[20px] sm-hidden md-hidden">
-              <div>
-                <img
-                  className="w-[150px] h-[80px]"
-                  src="https://cdn5.shoppy.mn/img/128771/80x60xwebp/naadam_niitlel-04.jpg?h=762357f34abced47a3a7de51413b114615adb922"
-                />
-              </div>
-              <div>
-                <h2 className="">2022/07/06</h2>
-                <h2>WhyNaadam? | Монголчуудын ялгарах үндэсний брэнд Наадам</h2>
-              </div>
-            </div>
+          <h5>Сүүлд нэмэгдсэн</h5>
+
+          <div className="pt-[15px] mb-[30px] bg-[white] w-[380px] sm:block overflow-y-auto h-[600px] ">
+            {newslist.map((item, index) => (
+              <Link key={index} to={"/S/" + item.name}>
+                <div className="flex mt-[15px] sm-hidden md-hidden">
+                  <div className="flex ">
+                    <img
+                      className="w-48 h-48 object-contain"
+                      src={`${cdnUrl}/${item.link}`}
+                    />
+                    <div className="ml-[10px] mt-[35px]">
+                      <h2>
+                        {convertDate(item.createdAt)}
+                        {/* {convertDate(item.createdAt) +
+                        "~" +
+                        convertTime(item.createdAt)} */}
+                      </h2>
+                      <h2>{item.name}</h2>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
